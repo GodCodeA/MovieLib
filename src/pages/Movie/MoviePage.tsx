@@ -11,7 +11,9 @@ import {
   removeFavoriteMovie,
 } from "../../store/favoritesSlice";
 import { Movie } from "../../types/movie";
-import { TrailerModal } from "../../components/TrailerModal";
+import { TrailerModal } from "../../components/TrailerModal/TrailerModal";
+import formatRuntime from "../../utils/formatRuntime";
+import formatNumber from "../../utils/formatNumber";
 import "./index.css";
 
 export function MoviePage(): JSX.Element {
@@ -112,42 +114,18 @@ export function MoviePage(): JSX.Element {
 
   return (
     <section className="movie">
-      <div className="movie__poster-wrapper">
-        <img
-          src={movie.posterUrl}
-          alt={movie.title}
-          className="movie__poster"
-          title={movie.title}
-        />
-      </div>
-
-      <div className="movie__info">
+      <div className="movie__wrapper">
+        <div className="movie__poster-wrapper">
+          <img
+            src={movie.posterUrl}
+            alt={movie.title}
+            className="movie__poster"
+            title={movie.title}
+          />
+        </div>
         <h1 className="movie__title" title={movie.title}>
           {movie.title}
         </h1>
-
-        <p className="movie__text">
-          <strong>Original title:</strong> {movie.originalTitle}
-        </p>
-        <p className="movie__text">
-          <strong>Year:</strong> {movie.releaseYear}
-        </p>
-        <p className="movie__text">
-          <strong>Rating:</strong> {movie.tmdbRating}
-        </p>
-        <p className="movie__text">
-          <strong>Language:</strong> {movie.language}
-        </p>
-        <p className="movie__text">
-          <strong>Genres:</strong> {movie.genres.join(", ")}
-        </p>
-        <p className="movie__text">
-          <strong>Status:</strong> {movie.status}
-        </p>
-        <p className="movie__description">{movie.plot}</p>
-
-        {errorMessage && <p className="auth-form__error">{errorMessage}</p>}
-
         <div className="movie__actions">
           <button
             type="button"
@@ -187,7 +165,100 @@ export function MoviePage(): JSX.Element {
                 : "Add to favorites"}
           </button>
         </div>
+        <div className="movie__info">
+          <div className="movie__data-info">
+            <div className="movie__text">
+              <span className="movie__text-title">Year:</span>
+              <span className="movie__data-text">{movie.releaseYear}</span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Rating IMDb:</span>
+              <span className="movie__data-text">
+                <span>{movie.imdbRating} </span>
+                <span className="movie__text-gray">
+                  ({formatNumber(movie.quantityImdbRating)})
+                </span>
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Runtime:</span>
+              <span className="movie__data-text">
+                {formatRuntime(movie.runtime)}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Budget:</span>
+              <span className="movie__data-text">
+                $ {formatNumber(movie.budget)}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Earnings:</span>
+              <span className="movie__data-text">
+                $ {formatNumber(movie.worldEarning)}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Director:</span>
+              <span className="movie__data-text">
+                {movie.director.join(", ")}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Writer:</span>
+              <span className="movie__data-text">
+                {movie.writer.join(", ")}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Producer:</span>
+              <span className="movie__data-text">
+                {movie.producer.join(", ")}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Composer:</span>
+              <span className="movie__data-text">
+                {movie.composer.join(", ")}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Cast:</span>
+              <span className="movie__data-text">
+                {movie.movieStars.join(", ")}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Country:</span>
+              <span className="movie__data-text">
+                {movie.country.join(", ")}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Language:</span>
+              <span className="movie__data-text"> {movie.language}</span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Genres:</span>
+              <span className="movie__data-text">
+                {movie.genres.join(", ")}
+              </span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Rating MPPA:</span>
+              <span className="movie__data-text">{movie.ratingMPPA}</span>
+            </div>
+            <div className="movie__text">
+              <span className="movie__text-title">Age:</span>
+              <span className="movie__data-text">{movie.ageWatch}</span>
+            </div>
+          </div>
+
+          {errorMessage && <p className="auth-form__error">{errorMessage}</p>}
+        </div>
       </div>
+      <h2 className="movie__story-title">Storyline</h2>
+      <p className="movie__description">{movie.plot}</p>
       <TrailerModal
         isOpen={isTrailerModalOpen}
         trailerYouTubeId={movie.trailerYouTubeId}

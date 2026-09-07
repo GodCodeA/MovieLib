@@ -1,9 +1,10 @@
 import { FormEvent, useState } from "react";
-import { loginUser, registerUser, getCurrentUser } from "../api/authApi";
-import { useAppDispatch } from "../hooks/redux";
-import { setUser } from "../store/userSlice";
-import { getFavoriteMovies } from "../api/moviesApi";
-import { setFavoriteMovies } from "../store/favoritesSlice";
+import { loginUser, registerUser } from "../../api/authApi";
+import { useAppDispatch } from "../../hooks/redux";
+import { setUser } from "../../store/userSlice";
+import { getFavoriteMovies } from "../../api/moviesApi";
+import { setFavoriteMovies } from "../../store/favoritesSlice";
+import "./index.css";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -97,20 +98,13 @@ export function AuthModal({
           password,
         });
 
-        if (!loginResponse.result) {
+        if (!loginResponse?.token) {
           setErrorMessage("Invalid email or password");
           return;
         }
 
-        try {
-          const currentUser = await getCurrentUser();
-          dispatch(setUser(currentUser));
-        } catch (error) {
-          setErrorMessage(
-            "Login succeeded, but the session was not preserved. Check cookies, VPN, and proxy.",
-          );
-          return;
-        }
+        localStorage.setItem("token", loginResponse.token);
+        dispatch(setUser(loginResponse.user));
 
         try {
           const favoriteMovies = await getFavoriteMovies();

@@ -1,3 +1,5 @@
+import "./index.css";
+
 interface TrailerModalProps {
   isOpen: boolean;
   trailerYouTubeId: string;

@@ -18,6 +18,7 @@ export function ProfilePage(): JSX.Element {
     } catch (error) {
       console.error("Error logging out");
     } finally {
+      localStorage.removeItem("token");
       dispatch(clearUser());
       dispatch(clearFavoriteMovies());
       navigate("/");
@@ -91,7 +92,7 @@ export function ProfilePage(): JSX.Element {
                   <div className="profile__movie-content">
                     <h3 className="profile__movie-title">{movie.title}</h3>
                     <p className="profile__movie-rating">
-                      Rating: {movie.tmdbRating}
+                      Rating: {movie.imdbRating}
                     </p>
                     <p className="profile__movie-text">
                       <strong>Release year:</strong> {movie.releaseYear}

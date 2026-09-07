@@ -58,7 +58,7 @@ export function GenreDetailsPage(): JSX.Element {
 
       const moviesData = await getMoviesByGenre(genreName);
       const sortedMovies = [...moviesData].sort((firstMovie, secondMovie) => {
-        return secondMovie.tmdbRating - firstMovie.tmdbRating;
+        return secondMovie.imdbRating - firstMovie.imdbRating;
       });
 
       setMovies(sortedMovies);
@@ -97,7 +97,7 @@ export function GenreDetailsPage(): JSX.Element {
             />
             <div className="genre-details__content">
               <h2 className="genre-details__title">{movie.title}</h2>
-              <p className="genre-details__rating">Rating: {movie.tmdbRating}</p>
+              <p className="genre-details__rating">Rating: {movie.imdbRating}</p>
               <p className="genre-details__year">{movie.releaseYear}</p>
             </div>
           </Link>

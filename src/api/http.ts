@@ -1,6 +1,16 @@
 import axios from "axios";
 
 export const httpClient = axios.create({
-  baseURL: "https://cinemaguide.skillbox.cc",
-  withCredentials: true,
+  baseURL: "http://localhost:3001",
+});
+
+httpClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers = config.headers ?? {};
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
 });

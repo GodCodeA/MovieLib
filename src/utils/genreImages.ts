@@ -1,4 +1,6 @@
 const genreImageMap: Record<string, string> = {
+  backdropUrl:
+    "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1600&q=80",
   drama:
     "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=800&q=80",
   comedy:

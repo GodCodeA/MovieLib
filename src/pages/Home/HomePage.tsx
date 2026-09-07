@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { getRandomMovie, getTopMovies } from "../../api/moviesApi";
 import { Movie } from "../../types/movie";
+import formatRuntime from "../../utils/formatRuntime";
 import "./index.css";
 
 export function HomePage(): JSX.Element {
@@ -53,17 +54,6 @@ export function HomePage(): JSX.Element {
     }
   }
 
-  function formatRuntime(runtime: number): string {
-    const hours = Math.floor(runtime / 60);
-    const minutes = runtime % 60;
-
-    if (!hours) {
-      return `${minutes} min`;
-    }
-
-    return `${hours} h ${minutes} min`;
-  }
-
   function shortMoviePlot(plot: string) {
     if (plot.length <= 160) {
       return plot;
@@ -102,7 +92,7 @@ export function HomePage(): JSX.Element {
         >
           <div className="home__hero-content">
             <p className="home__hero-eyebrow">
-              VK Marusya — choose a movie in seconds
+              MovieLib — choose a movie in seconds
             </p>
             <h1 className="home__hero-title" title={randomMovie.title}>
               {randomMovie.title}
@@ -115,14 +105,14 @@ export function HomePage(): JSX.Element {
               className="home__hero-top-rating"
               title="Movie with rating above 8.5"
             >
-              {randomMovie.tmdbRating >= 8.5
-                ? `Top rating • ${randomMovie.tmdbRating}`
+              {randomMovie.imdbRating >= 7.5
+                ? `Top rating • ${randomMovie.imdbRating}`
                 : null}
             </p>
 
             <div className="home__hero-meta">
               <span>{randomMovie.releaseYear}</span>
-              <span>IMDb {randomMovie.tmdbRating}</span>
+              <span>IMDb {randomMovie.imdbRating}/10</span>
               <span>{formatRuntime(randomMovie.runtime)}</span>
             </div>
 
@@ -211,7 +201,7 @@ export function HomePage(): JSX.Element {
                   <div className="home__top-card-content">
                     <h3 className="home__top-card-title">{movie.title}</h3>
                     <p className="home__top-card-meta">
-                      {movie.releaseYear} • IMDb {movie.tmdbRating}
+                      {movie.releaseYear} • IMDb {movie.imdbRating}
                     </p>
                   </div>
                 </Link>

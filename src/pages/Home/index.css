@@ -27,7 +27,6 @@
 .home__top-eyebrow {
   margin: 0 0 12px;
   color: #c8ff76;
-  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -35,22 +34,16 @@
 
 .home__hero-title {
   margin: 0;
-  font-size: 72px;
-  line-height: 0.98;
 }
 
 .home__hero-subtitle {
   margin: 8px 0 0;
   color: rgba(255, 255, 255, 0.86);
-  font-size: 16px;
-  line-height: 1.4;
 }
 
 .home__hero-top-rating {
   margin: 0;
-  font-size: clamp(16px, 4vw, 24px);
   color: #daa520;
-  line-height: 1.4;
 }
 
 .home__hero-meta {
@@ -65,8 +58,6 @@
   max-width: 560px;
   margin: 24px 0 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 18px;
-  line-height: 1.65;
 }
 
 .home__hero-genres {
@@ -138,7 +129,6 @@
 
 .home__top-title {
   margin: 0;
-  font-size: clamp(28px, 4vw, 40px);
 }
 
 .home__top-subtitle {
@@ -175,7 +165,6 @@
 
 .home__top-card-rank {
   color: #c8ff76;
-  font-size: 34px;
   font-weight: 800;
   text-align: center;
 }
@@ -194,7 +183,6 @@
 
 .home__top-card-title {
   margin: 0 0 10px;
-  font-size: 18px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -223,7 +211,6 @@
   justify-self: center;
   border-radius: 5px;
   padding: 20px;
-  font-size: 19px;
 }
 
 .home__error-message {
@@ -243,18 +230,6 @@
     padding: 28px 22px;
   }
 
-  .home__hero-eyebrow {
-    font-size: 11px;
-  }
-
-  .home__hero-title {
-    font-size: 38px;
-  }
-
-  .home__hero-description {
-    font-size: 16px;
-  }
-
   .home__top-header {
     align-items: start;
     flex-direction: column;
@@ -269,6 +244,5 @@
 
   .home__top-card-title {
     margin: 0 0 5px;
-    font-size: 16px;
   }
 }

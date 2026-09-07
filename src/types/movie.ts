@@ -1,20 +1,26 @@
 export interface Movie {
   id: number;
   title: string;
-  originalTitle: string;
-  language: string;
+  posterUrl: string;
   releaseYear: number;
-  releaseDate: string;
+  country: string[];
+  language: string;
   genres: string[];
   plot: string;
-  runtime: number;
-  budget: number | null;
-  revenue: number | null;
-  homepage: string;
-  status: string;
-  posterUrl: string;
-  backdropUrl: string | null;
-  trailerUrl: string;
   trailerYouTubeId: string;
-  tmdbRating: number;
+  backdropUrl: string | null;
+  // crew
+  director: string[];
+  writer: string[];
+  producer: string[];
+  composer: string[];
+  movieStars: string[];
+  // movie info
+  runtime: number;
+  budget: number;
+  worldEarning: number;
+  imdbRating: number;
+  quantityImdbRating: number;
+  ratingMPPA: string;
+  ageWatch: string;
 }

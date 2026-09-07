@@ -1,4 +1,4 @@
-# VK Marusya
+# MovieLib
 
 A small frontend application for quick movie recommendations: random movie, genre collections, and top 9.
 
@@ -46,7 +46,7 @@ npm run preview
 - `src/styles` — global styles
 
 ## Live demo
-- https://vk-marusya.pages.dev
+- https://movielib.pages.dev
 
 ## API
 The project uses `https://cinemaguide.skillbox.cc` as the `baseURL` (see `src/api/http.ts`). If you need to change the API address, update `src/api/http.ts`.

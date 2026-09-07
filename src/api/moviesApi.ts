@@ -36,13 +36,8 @@ export async function getFavoriteMovies(): Promise<Movie[]> {
 }
 
 export async function addMovieToFavorites(movieId: string): Promise<void> {
-  const requestBody = new URLSearchParams();
-  requestBody.append("id", movieId);
-
-  await httpClient.post("/favorites", requestBody, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
+  await httpClient.post("/favorites", {
+    id: movieId,
   });
 }
 

@@ -1,14 +1,26 @@
 .movie {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-block: 30px;
+}
+
+.movie__wrapper {
   display: grid;
   grid-template-columns: 320px 1fr;
-  gap: 32px;
+  grid-template-areas: "poster title" "poster info" "actions info";
+  gap: 25px 60px;
   align-items: start;
+}
+
+.movie__info {
+  grid-area: info;
 }
 
 .movie__poster-wrapper {
   overflow: hidden;
   border-radius: 20px;
-  background-color: #1b1c1d;
+  width: 100%;
+  grid-area: poster;
 }
 
 .movie__poster {
@@ -19,23 +31,46 @@
 
 .movie__title {
   margin: 0 0 20px;
-  font-size: 40px;
+  grid-area: title;
 }
 
 .movie__text {
-  margin: 0 0 12px;
   color: rgba(255, 255, 255, 0.8);
+  display: grid;
+  grid-template-columns: minmax(100px, 250px) minmax(200px, 500px);
+  padding-block-start: 8px;
+  padding-block-end: 8px;
+  padding-inline-start: 0;
+  padding-inline-end: 0;
+}
+
+.movie__text-title {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.movie__data-text {
+  max-width: 400px;
+}
+
+.movie__text-gray {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .movie__description {
   margin: 24px 0;
-  line-height: 1.6;
 }
 
 .movie__actions {
   display: flex;
+  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
+  grid-area: actions;
+  margin-block-end: 165px;
+}
+
+.movie__story-title {
+  margin: 0 0 25px;
 }
 
 .movie__button-trailer,
@@ -51,12 +86,39 @@
   user-select: none;
 }
 
-@media (max-width: 768px) {
-  .movie {
+@media (max-width: 1024px) {
+  .movie__wrapper {
     grid-template-columns: 1fr;
+    grid-template-areas: "poster" "title" "actions" "info";
+    gap: 25px;
+    margin-block-end: 25px;
+  }
+
+  .movie__poster-wrapper {
+    display: flex;
+    max-width: 600px;
+    justify-self: center;
   }
 
   .movie__title {
-    font-size: 28px;
+    text-align: center;
+    margin: 0;
+  }
+
+  .movie__info {
+    padding-block-start: 80px;
+  }
+
+  .movie__actions {
+    margin-block-end: 0;
+  }
+
+  .movie__text {
+    grid-template-columns: minmax(90px, 300px) 1fr;
+  }
+
+  .movie__data-text {
+    width: auto;
+    min-width: 0;
   }
 }

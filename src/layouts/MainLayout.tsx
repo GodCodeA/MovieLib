@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 import { useAppSelector } from "../hooks/redux";
 import { useEffect, useState } from "react";
-import { AuthModal } from "../components/AuthModal";
-import { SearchModal } from "../components/SearchModal";
+import { AuthModal } from "../components/AuthModal/AuthModal";
+import { SearchModal } from "../components/SearchModal/SearchModal";
 
 export function MainLayout(): JSX.Element {
   const { user, isAuthorized } = useAppSelector((state) => state.user);
@@ -45,7 +45,7 @@ export function MainLayout(): JSX.Element {
       <header className="header">
         <div className="container header__content">
           <Link to="/" className="logo">
-            VK Marusya
+            MovieLib
           </Link>
 
           <nav className="navigation">

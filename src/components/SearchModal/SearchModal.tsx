@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { searchMoviesByTitle } from "../api/moviesApi";
-import { Movie } from "../types/movie";
+import { searchMoviesByTitle } from "../../api/moviesApi";
+import { Movie } from "../../types/movie";
+import "./index.css"
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -105,7 +106,7 @@ export function SearchModal({
                 <div className="search-result__content">
                   <h3 className="search-result__title">{movie.title}</h3>
                   <p className="search-result__meta">
-                    {movie.releaseYear} • Rating {movie.tmdbRating}
+                    {movie.releaseYear} • Rating {movie.imdbRating}
                   </p>
                 </div>
               </Link>

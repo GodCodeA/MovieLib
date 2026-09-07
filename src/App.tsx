@@ -27,6 +27,14 @@ function App(): JSX.Element {
     try {
       dispatch(startUserLoading());
 
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        dispatch(clearUser());
+        dispatch(clearFavoriteMovies());
+        return;
+      }
+
       const profilePromise = getCurrentUser();
       const favoritesPromise = getFavoriteMovies();
 
@@ -37,14 +45,10 @@ function App(): JSX.Element {
 
       if (profileResult.status === "fulfilled") {
         dispatch(setUser(profileResult.value));
-      } else if (
-        profileResult.status === "rejected" &&
-        isAuthError(profileResult.reason)
-      ) {
+      } else {
+        localStorage.removeItem("token");
         dispatch(clearUser());
         dispatch(clearFavoriteMovies());
-      } else {
-        dispatch(clearUser());
       }
 
       if (favoritesResult.status === "fulfilled") {
@@ -55,6 +59,7 @@ function App(): JSX.Element {
         dispatch(setFavoritesError(message));
       }
     } catch (error) {
+      localStorage.removeItem("token");
       dispatch(clearUser());
       dispatch(clearFavoriteMovies());
     } finally {
