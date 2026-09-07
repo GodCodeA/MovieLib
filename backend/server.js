@@ -320,7 +320,7 @@ app.get("/me", authMiddleware, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Backend started on http://localhost:${PORT}`);
+  console.log(`Backend started on ${PORT}`);
 });
 
 // {
