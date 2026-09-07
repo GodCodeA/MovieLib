@@ -56,9 +56,18 @@ Backend settings are stored in `backend/.env`:
 ```env
 PORT=3001
 JWT_SECRET=replace_with_a_secure_secret
+PUBLIC_URL=http://localhost:3001
 ```
 
 `JWT_SECRET` must be a unique secret and must not be committed to the repository.
+`PUBLIC_URL` is the public address used in movie image URLs. Use the local address during development and the deployed backend URL in production.
+
+Movie images are stored in `backend/public/images` and are served from the `/images` path. For example:
+
+```text
+backend/public/images/matrix_poster.avif
+http://localhost:3001/images/matrix_poster.avif
+```
 
 ### 2. Frontend
 
@@ -149,6 +158,7 @@ All client requests use the address from `VITE_API_URL`. The token from `localSt
 ├── backend/
 │   ├── server.js       # Express API, authentication, and movie data
 │   ├── package.json
+│   ├── public/images/   # movie poster and backdrop files
 │   └── .env
 ├── public/             # static files
 ├── src/
@@ -160,7 +170,8 @@ All client requests use the address from `VITE_API_URL`. The token from `localSt
 │   ├── store/          # Redux slices for the user and favorites
 │   ├── types/          # TypeScript types
 │   └── utils/          # Formatters and utility functions
-├── .env                # VITE_API_URL for the frontend
+├── .env                # production VITE_API_URL for the frontend
+├── .env.local           # local VITE_API_URL; ignored by Git
 └── package.json
 ```
 
@@ -180,6 +191,15 @@ The `backend/` folder is part of the project and must be deployed separately fro
 The deployed API is available at:
 
 https://movielib-s8ab.onrender.com
+
+In Render, add these backend environment variables:
+
+```text
+JWT_SECRET=<secure secret>
+PUBLIC_URL=https://movielib-s8ab.onrender.com
+```
+
+The `backend/public/images` directory must be included in the deployed repository. Render serves these files at `/images/...` without changing their format or contents.
 
 Check that this address responds to `/health` before connecting the frontend:
 

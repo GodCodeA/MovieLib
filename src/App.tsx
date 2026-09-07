@@ -14,7 +14,7 @@ import {
   setFavoriteMovies,
   setFavoritesError,
 } from "./store/favoritesSlice";
-import { isAuthError, getFavoritesErrorMessage } from "./utils/Errors";
+import { getFavoritesErrorMessage } from "./utils/Errors";
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();

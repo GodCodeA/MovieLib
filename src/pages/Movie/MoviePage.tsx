@@ -193,7 +193,7 @@ export function MoviePage(): JSX.Element {
               </span>
             </div>
             <div className="movie__text">
-              <span className="movie__text-title">Earnings:</span>
+              <span className="movie__text-title">Gross worldwide:</span>
               <span className="movie__data-text">
                 $ {formatNumber(movie.worldEarning)}
               </span>

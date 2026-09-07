@@ -78,9 +78,7 @@ export function MainLayout(): JSX.Element {
       </header>
 
       <main className="main">
-        <div className="container">
-          <Outlet />
-        </div>
+        <Outlet />
       </main>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
