@@ -3,13 +3,20 @@ import cors from "cors";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+dotenv.config();
+
+const PORT = process.env.PORT || 3001;
+const PUBLIC_URL = process.env.PUBLIC_URL || `http://localhost:${PORT}`;
 
 const movies = [
   {
     id: 1,
     title: "The Matrix",
-    posterUrl: "https://6a98121ed601bb7bf57b000e.imgix.net/sandbox/1890.jpg",
-    backdropUrl: "https://6a98121ed601bb7bf57b000e.imgix.net/sandbox/1892.jpg",
+    posterUrl: `${PUBLIC_URL}/images/matrix_poster.avif`,
+    backdropUrl: `${PUBLIC_URL}/images/matrix_bg.avif`,
     releaseYear: 1999,
     imdbRating: 8.7,
     quantityImdbRating: 2200000,
@@ -43,8 +50,8 @@ const movies = [
   {
     id: 2,
     title: "The Shawshank Redemption",
-    posterUrl: "https://6a98121ed601bb7bf57b000e.imgix.net/sandbox/1970.jpg",
-    backdropUrl: "https://6a98121ed601bb7bf57b000e.imgix.net/sandbox/1971.jpg",
+    posterUrl: `${PUBLIC_URL}/images/shawshank_redemption_poster.avif`,
+    backdropUrl: `${PUBLIC_URL}/images/shawshank_redemption_bg.avif`,
     releaseYear: 1994,
     imdbRating: 9.3,
     quantityImdbRating: 3200000,
@@ -78,8 +85,8 @@ const movies = [
   {
     id: 3,
     title: "Pirates of the Caribbean: The Curse of the Black Pearl",
-    posterUrl: "https://6a98121ed601bb7bf57b000e.imgix.net/sandbox/1972.jpg",
-    backdropUrl: "https://6a98121ed601bb7bf57b000e.imgix.net/1973.jpg",
+    posterUrl: `${PUBLIC_URL}/images/pirates_of_the_carribean_poster.avif`,
+    backdropUrl: `${PUBLIC_URL}/images/pirates_of_the_carribean_bg.avif`,
     releaseYear: 2003,
     imdbRating: 8.1,
     quantityImdbRating: 1300000,
@@ -116,11 +123,12 @@ const movies = [
 
 const favoriteMoviesByUser = new Map();
 
-dotenv.config();
-
 const app = express();
-const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 app.use(cors());
 app.use(express.json());
