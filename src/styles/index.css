@@ -81,6 +81,7 @@ button {
 @media (max-width: 1024px) {
   .header__content {
     grid-template-columns: auto auto;
+    justify-items: baseline;
   }
 
   .container {

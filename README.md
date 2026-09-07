@@ -171,11 +171,35 @@ All client requests use the address from `VITE_API_URL`. The token from `localSt
 - JWTs expire after one hour.
 - For production, set a secure `JWT_SECRET` and a separate `VITE_API_URL`.
 
-## Live demo
+## Deployment
 
-https://movielib.pages.dev
+The `backend/` folder is part of the project and must be deployed separately from the frontend. Cloudflare Pages hosts the React frontend only; it does not run the Express server from `backend/`.
 
-To deploy the frontend, run `npm run build` and publish the `dist` directory. The backend must be hosted separately on a Node.js platform.
+### Backend
+
+The deployed API is available at:
+
+https://movielib-s8ab.onrender.com
+
+Check that this address responds to `/health` before connecting the frontend:
+
+```text
+https://movielib-s8ab.onrender.com/health
+```
+
+### Frontend on Cloudflare Pages
+
+1. Run `npm run build` from the project root.
+2. In Cloudflare Pages, set the build command to `npm run build`.
+3. Set the output directory to `dist`.
+4. Add the production environment variable `VITE_API_URL` with this value, without a trailing slash:
+
+	`https://movielib-s8ab.onrender.com`
+5. Deploy the project again after changing the environment variable, because Vite inserts it during the build.
+
+The frontend deployed on Cloudflare is available at:
+
+https://movielib.bishkek-2020.workers.dev
 
 ## License
 
