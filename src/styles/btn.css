@@ -1,0 +1,14 @@
+.btn {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  padding: 10px 16px;
+  border-radius: 10px;
+}
+
+.btn-close {
+  color: rgb(255, 255, 255);
+}
+
+.btn-logout {
+  background-color: rgba(190, 55, 65, 0.8);;
+}

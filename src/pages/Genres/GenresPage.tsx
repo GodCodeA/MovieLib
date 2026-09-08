@@ -43,23 +43,25 @@ export function GenresPage(): JSX.Element {
 
   return (
     <section className="genres">
-      <h1>Genres</h1>
+      <div className="container">
+        <h1 className="genres__title">Genres</h1>
 
-      <div className="genres__grid">
-        {genres.map((genre) => (
-          <Link
-            key={genre.name}
-            to={`/genres/${genre.name}`}
-            className="genres__card"
-          >
-            <img
-              src={genre.imageUrl}
-              alt={genre.name}
-              className="genres__image"
-            />
-            <span className="genres__title">{genre.name}</span>
-          </Link>
-        ))}
+        <div className="genres__grid">
+          {genres.map((genre) => (
+            <Link
+              key={genre.name}
+              to={`/genres/${genre.name}`}
+              className="genres__card"
+            >
+              <img
+                src={genre.imageUrl}
+                alt={genre.name}
+                className="genres__image"
+              />
+              <span className="genres__movie-title">{genre.name}</span>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

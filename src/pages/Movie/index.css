@@ -35,9 +35,9 @@
 }
 
 .movie__text {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255);
   display: grid;
-  grid-template-columns: minmax(100px, 250px) minmax(200px, 500px);
+  grid-template-columns: minmax(100px, 200px) minmax(200px, 330px);
   padding-block-start: 8px;
   padding-block-end: 8px;
   padding-inline-start: 0;
@@ -48,16 +48,12 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
-.movie__data-text {
-  max-width: 400px;
-}
-
 .movie__text-gray {
   color: rgba(255, 255, 255, 0.5);
 }
 
 .movie__description {
-  margin: 24px 0;
+  margin: 0 0 20px;
 }
 
 .movie__actions {
@@ -73,24 +69,29 @@
   margin: 0 0 25px;
 }
 
-.movie__button-trailer,
 .movie__button-favorite {
   padding: 12px 20px;
   border: none;
   border-radius: 10px;
 }
 
-.movie__button-trailer:disabled {
-  pointer-events: none;
-  opacity: 0.4;
-  user-select: none;
+.movie__trailer-player {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
+}
+
+.movie__trailer-player > div {
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 1024px) {
   .movie__wrapper {
     grid-template-columns: 1fr;
     grid-template-areas: "poster" "title" "actions" "info";
-    gap: 25px;
+    gap: 15px;
     margin-block-end: 25px;
   }
 
@@ -112,13 +113,30 @@
   .movie__actions {
     margin-block-end: 0;
   }
+  .movie__data-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 
   .movie__text {
-    grid-template-columns: minmax(90px, 300px) 1fr;
+    grid-template-columns: minmax(80px, 200px) minmax(200px, 330px);
+    column-gap: 20px;
+    padding: 0;
   }
 
   .movie__data-text {
     width: auto;
     min-width: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .movie__data-info {
+    gap: 5px;
+  }
+
+  .movie__text {
+    border-block-end: 1px solid rgb(255, 255, 255, 0.12);
   }
 }

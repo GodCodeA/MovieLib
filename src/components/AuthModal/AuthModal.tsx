@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { setUser } from "../../store/userSlice";
 import { getFavoriteMovies } from "../../api/moviesApi";
 import { setFavoriteMovies } from "../../store/favoritesSlice";
+import { X } from "lucide-react";
 import "./index.css";
 
 interface AuthModalProps {
@@ -161,17 +162,22 @@ export function AuthModal({
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="auth-modal" onClick={(event) => event.stopPropagation()}>
-        <button type="button" className="auth-modal__close" onClick={onClose}>
-          ×
+        <button
+          type="button"
+          className="auth-modal__close btn-close"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <X />
         </button>
 
         <h2 className="auth-modal__title">
           {mode === "login" ? "Login" : "Register"}
         </h2>
 
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form className="auth-modal__form" onSubmit={handleSubmit}>
           {successMessage && (
-            <p className="auth-form__success">{successMessage}</p>
+            <p className="auth-modal__success">{successMessage}</p>
           )}
 
           {mode === "register" && (
@@ -179,7 +185,7 @@ export function AuthModal({
               <input
                 type="text"
                 placeholder="First name"
-                className={`auth-form__input ${hasNameError ? "auth-form__input_error" : ""}`}
+                className={`auth-modal__input ${hasNameError ? "auth-modal__input_error" : ""}`}
                 onBlur={() => setIsNameTouched(true)}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
@@ -187,7 +193,7 @@ export function AuthModal({
               <input
                 type="text"
                 placeholder="Last name"
-                className={`auth-form__input ${hasSurnameError ? "auth-form__input_error" : ""}`}
+                className={`auth-modal__input ${hasSurnameError ? "auth-modal__input_error" : ""}`}
                 onBlur={() => setIsSurnameTouched(true)}
                 value={surname}
                 onChange={(event) => setSurname(event.target.value)}
@@ -197,7 +203,7 @@ export function AuthModal({
           <input
             type="email"
             placeholder="Email"
-            className={`auth-form__input ${hasEmailError ? "auth-form__input_error" : ""}`}
+            className={`auth-modal__input ${hasEmailError ? "auth-modal__input_error" : ""}`}
             onBlur={() => setIsEmailTouched(true)}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -206,17 +212,17 @@ export function AuthModal({
           <input
             type="password"
             placeholder="Password"
-            className={`auth-form__input ${hasPasswordError ? "auth-form__input_error" : ""}`}
+            className={`auth-modal__input ${hasPasswordError ? "auth-modal__input_error" : ""}`}
             onBlur={() => setIsPasswordTouched(true)}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
 
-          {errorMessage && <p className="auth-form__error">{errorMessage}</p>}
+          {errorMessage && <p className="auth-modal__error">{errorMessage}</p>}
 
           <button
             type="submit"
-            className="auth-form__submit"
+            className="auth-modal__submit"
             disabled={isSubmitting}
           >
             {isSubmitting
@@ -244,7 +250,7 @@ export function AuthModal({
               className="auth-modal__switch"
               onClick={switchToLogin}
             >
-              I already have an account
+              Log in
             </button>
           )}
         </div>

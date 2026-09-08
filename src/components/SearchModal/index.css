@@ -1,3 +1,13 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.72);
+}
+
 .search-modal {
   position: relative;
   width: 100%;
@@ -14,6 +24,39 @@
   flex-direction: column;
   gap: 12px;
   margin-top: 20px;
+}
+
+.search-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.search-modal__close:hover {
+  color: #c8ff76;
+}
+
+.search-modal__title {
+  margin: 0 0 24px;
+}
+
+.search-modal__input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: #2a2b2d;
+  color: #ffffff;
+}
+
+.search-modal__input:focus {
+  outline: none;
+  border-color: #ffffff;
+}
+
+.search-modal__error {
+  margin: 0;
+  color: #ff6b6b;
 }
 
 .search-result {

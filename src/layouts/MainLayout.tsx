@@ -68,7 +68,7 @@ export function MainLayout(): JSX.Element {
           ) : (
             <button
               type="button"
-              className="auth-button"
+              className="auth-button btn"
               onClick={openAuthModal}
             >
               Sign in

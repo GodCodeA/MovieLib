@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ReactPlayer from "react-player";
 import {
   addMovieToFavorites,
   getMovieById,
@@ -11,7 +12,6 @@ import {
   removeFavoriteMovie,
 } from "../../store/favoritesSlice";
 import { Movie } from "../../types/movie";
-import { TrailerModal } from "../../components/TrailerModal/TrailerModal";
 import formatRuntime from "../../utils/formatRuntime";
 import formatNumber from "../../utils/formatNumber";
 import "./index.css";
@@ -29,8 +29,6 @@ export function MoviePage(): JSX.Element {
   const isAuthorized = useAppSelector((state) => state.user.isAuthorized);
   const favoriteMovies = useAppSelector((state) => state.favorites.movies);
 
-  const [isTrailerModalOpen, setIsTrailerModalOpen] = useState(false);
-
   useEffect(() => {
     loadMovie();
   }, [movieId]);
@@ -47,18 +45,6 @@ export function MoviePage(): JSX.Element {
     } finally {
       setIsLoading(false);
     }
-  }
-
-  function openTrailer(): void {
-    if (!movie?.trailerDailyMotionId) {
-      setErrorMessage("Trailer for this movie is unavailable");
-      return;
-    }
-    setIsTrailerModalOpen(true);
-  }
-
-  function closeTrailerModal(): void {
-    setIsTrailerModalOpen(false);
   }
 
   async function toggleFavoriteMovie(): Promise<void> {
@@ -114,157 +100,153 @@ export function MoviePage(): JSX.Element {
 
   return (
     <section className="movie">
-      <div className="movie__wrapper">
-        <div className="movie__poster-wrapper">
-          <img
-            src={movie.posterUrl}
-            alt={movie.title}
-            className="movie__poster"
-            title={movie.title}
-          />
-        </div>
-        <h1 className="movie__title" title={movie.title}>
-          {movie.title}
-        </h1>
-        <div className="movie__actions">
-          <button
-            type="button"
-            className="movie__button-trailer"
-            onClick={openTrailer}
-            disabled={!movie.trailerDailyMotionId}
-            title={
-              !movie.trailerDailyMotionId
-                ? "Trailer unavailable for this movie"
-                : "Open movie trailer"
-            }
-          >
-            {movie.trailerDailyMotionId ? "Open trailer" : "Trailer unavailable"}
-          </button>
-
-          <button
-            type="button"
-            className="movie__button-favorite"
-            onClick={toggleFavoriteMovie}
-            disabled={isFavoriteLoading}
-            title={
-              isFavoriteLoading
+      <div className="container">
+        <div className="movie__wrapper">
+          <div className="movie__poster-wrapper">
+            <img
+              src={movie.posterUrl}
+              alt={movie.title}
+              className="movie__poster"
+              title={movie.title}
+            />
+          </div>
+          <h1 className="movie__title" title={movie.title}>
+            {movie.title}
+          </h1>
+          <div className="movie__actions">
+            <button
+              type="button"
+              className="movie__button-favorite btn"
+              onClick={toggleFavoriteMovie}
+              disabled={isFavoriteLoading}
+              title={
+                isFavoriteLoading
+                  ? isFavorite
+                    ? "Removing movie from favorites"
+                    : "Adding movie to favorites"
+                  : isFavorite
+                    ? "Remove movie from favorites"
+                    : "Add movie to favorites"
+              }
+            >
+              {isFavoriteLoading
                 ? isFavorite
-                  ? "Removing movie from favorites"
-                  : "Adding movie to favorites"
+                  ? "Removing..."
+                  : "Adding..."
                 : isFavorite
-                  ? "Remove movie from favorites"
-                  : "Add movie to favorites"
-            }
-          >
-            {isFavoriteLoading
-              ? isFavorite
-                ? "Removing..."
-                : "Adding..."
-              : isFavorite
-                ? "Remove from favorites"
-                : "Add to favorites"}
-          </button>
-        </div>
-        <div className="movie__info">
-          <div className="movie__data-info">
-            <div className="movie__text">
-              <span className="movie__text-title">Year:</span>
-              <span className="movie__data-text">{movie.releaseYear}</span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Rating IMDb:</span>
-              <span className="movie__data-text">
-                <span>{movie.imdbRating} </span>
-                <span className="movie__text-gray">
-                  ({formatNumber(movie.quantityImdbRating)})
+                  ? "Remove from favorites"
+                  : "Add to favorites"}
+            </button>
+          </div>
+          <div className="movie__info">
+            <div className="movie__data-info">
+              <div className="movie__text">
+                <span className="movie__text-title">Year:</span>
+                <span className="movie__data-text">{movie.releaseYear}</span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Rating IMDb:</span>
+                <span className="movie__data-text">
+                  <span>{movie.imdbRating} </span>
+                  <span className="movie__text-gray">
+                    ({formatNumber(movie.quantityImdbRating)})
+                  </span>
                 </span>
-              </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Runtime:</span>
+                <span className="movie__data-text">
+                  {formatRuntime(movie.runtime)}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Budget:</span>
+                <span className="movie__data-text">
+                  $ {formatNumber(movie.budget)}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Gross worldwide:</span>
+                <span className="movie__data-text">
+                  $ {formatNumber(movie.worldEarning)}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Director:</span>
+                <span className="movie__data-text">
+                  {movie.director.join(", ")}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Writer:</span>
+                <span className="movie__data-text">
+                  {movie.writer.join(", ")}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Producer:</span>
+                <span className="movie__data-text">
+                  {movie.producer.join(", ")}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Composer:</span>
+                <span className="movie__data-text">
+                  {movie.composer.join(", ")}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Cast:</span>
+                <span className="movie__data-text">
+                  {movie.movieStars.join(", ")}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Country:</span>
+                <span className="movie__data-text">
+                  {movie.country.join(", ")}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Language:</span>
+                <span className="movie__data-text"> {movie.language}</span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Genres:</span>
+                <span className="movie__data-text">
+                  {movie.genres.join(", ")}
+                </span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Rating MPPA:</span>
+                <span className="movie__data-text">{movie.ratingMPPA}</span>
+              </div>
+              <div className="movie__text">
+                <span className="movie__text-title">Age:</span>
+                <span className="movie__data-text">{movie.ageWatch}</span>
+              </div>
             </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Runtime:</span>
-              <span className="movie__data-text">
-                {formatRuntime(movie.runtime)}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Budget:</span>
-              <span className="movie__data-text">
-                $ {formatNumber(movie.budget)}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Gross worldwide:</span>
-              <span className="movie__data-text">
-                $ {formatNumber(movie.worldEarning)}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Director:</span>
-              <span className="movie__data-text">
-                {movie.director.join(", ")}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Writer:</span>
-              <span className="movie__data-text">
-                {movie.writer.join(", ")}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Producer:</span>
-              <span className="movie__data-text">
-                {movie.producer.join(", ")}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Composer:</span>
-              <span className="movie__data-text">
-                {movie.composer.join(", ")}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Cast:</span>
-              <span className="movie__data-text">
-                {movie.movieStars.join(", ")}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Country:</span>
-              <span className="movie__data-text">
-                {movie.country.join(", ")}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Language:</span>
-              <span className="movie__data-text"> {movie.language}</span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Genres:</span>
-              <span className="movie__data-text">
-                {movie.genres.join(", ")}
-              </span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Rating MPPA:</span>
-              <span className="movie__data-text">{movie.ratingMPPA}</span>
-            </div>
-            <div className="movie__text">
-              <span className="movie__text-title">Age:</span>
-              <span className="movie__data-text">{movie.ageWatch}</span>
+
+            {errorMessage && <p className="auth-form__error">{errorMessage}</p>}
+          </div>
+        </div>
+        <h2 className="movie__story-title">Storyline</h2>
+        <p className="movie__description">{movie.plot}</p>
+        {movie.trailerDailyMotionId && (
+          <div className="movie__trailer">
+            <h2 className="movie__story-title">Trailer</h2>
+
+            <div className="movie__trailer-player">
+              <ReactPlayer
+                src={`https://www.dailymotion.com/video/${movie.trailerDailyMotionId}`}
+                width="100%"
+                height="100%"
+                controls
+              />
             </div>
           </div>
-
-          {errorMessage && <p className="auth-form__error">{errorMessage}</p>}
-        </div>
+        )}
       </div>
-      <h2 className="movie__story-title">Storyline</h2>
-      <p className="movie__description">{movie.plot}</p>
-      <TrailerModal
-        isOpen={isTrailerModalOpen}
-        trailerDailyMotionId={movie.trailerDailyMotionId}
-        movieTitle={movie.title}
-        onClose={closeTrailerModal}
-      />
     </section>
   );
 }

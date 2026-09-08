@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { searchMoviesByTitle } from "../../api/moviesApi";
 import { Movie } from "../../types/movie";
-import "./index.css"
+import { X } from "lucide-react";
+import "./index.css";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -64,16 +65,21 @@ export function SearchModal({
         className="search-modal"
         onClick={(event) => event.stopPropagation()}
       >
-        <button type="button" className="auth-modal__close" onClick={onClose}>
-          ×
+        <button
+          type="button"
+          className="search-modal__close btn-close"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <X />
         </button>
 
-        <h2 className="auth-modal__title">Search movies</h2>
+        <h2 className="search-modal__title">Search movies</h2>
 
         <input
           type="text"
           placeholder="Enter movie title"
-          className="auth-form__input"
+          className="search-modal__input"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
@@ -82,7 +88,7 @@ export function SearchModal({
           {isLoading && <p>Searching movies...</p>}
 
           {!isLoading && errorMessage && (
-            <p className="auth-form__error">{errorMessage}</p>
+            <p className="search-modal__error">{errorMessage}</p>
           )}
 
           {!isLoading &&
