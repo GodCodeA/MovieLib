@@ -7,7 +7,7 @@ export interface Movie {
   language: string;
   genres: string[];
   plot: string;
-  trailerYouTubeId: string;
+  trailerDailyMotionId: string;
   backdropUrl: string | null;
   // crew
   director: string[];

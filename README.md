@@ -8,7 +8,7 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 - Top 9 movie collection;
 - Genre list and movies from a selected genre;
 - Movie search by title with a request debounce;
-- Detailed movie page with rating, plot, cast and crew, budget, earnings, and a YouTube trailer;
+- Detailed movie page with rating, plot, cast and crew, budget, earnings, and a DailyMotion trailer;
 - Registration and email/password login;
 - JWT authentication and automatic session restoration;
 - Adding and removing movies from favorites;

@@ -50,7 +50,7 @@ export function MoviePage(): JSX.Element {
   }
 
   function openTrailer(): void {
-    if (!movie?.trailerYouTubeId) {
+    if (!movie?.trailerDailyMotionId) {
       setErrorMessage("Trailer for this movie is unavailable");
       return;
     }
@@ -131,14 +131,14 @@ export function MoviePage(): JSX.Element {
             type="button"
             className="movie__button-trailer"
             onClick={openTrailer}
-            disabled={!movie.trailerYouTubeId}
+            disabled={!movie.trailerDailyMotionId}
             title={
-              !movie.trailerYouTubeId
+              !movie.trailerDailyMotionId
                 ? "Trailer unavailable for this movie"
                 : "Open movie trailer"
             }
           >
-            {movie.trailerYouTubeId ? "Open trailer" : "Trailer unavailable"}
+            {movie.trailerDailyMotionId ? "Open trailer" : "Trailer unavailable"}
           </button>
 
           <button
@@ -261,7 +261,7 @@ export function MoviePage(): JSX.Element {
       <p className="movie__description">{movie.plot}</p>
       <TrailerModal
         isOpen={isTrailerModalOpen}
-        trailerYouTubeId={movie.trailerYouTubeId}
+        trailerDailyMotionId={movie.trailerDailyMotionId}
         movieTitle={movie.title}
         onClose={closeTrailerModal}
       />
