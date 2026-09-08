@@ -207,10 +207,6 @@ export function MoviePage(): JSX.Element {
                 </span>
               </div>
               <div className="movie__text">
-                <span className="movie__text-title">Language:</span>
-                <span className="movie__data-text"> {movie.language}</span>
-              </div>
-              <div className="movie__text">
                 <span className="movie__text-title">Genres:</span>
                 <span className="movie__data-text">
                   {movie.genres.join(", ")}

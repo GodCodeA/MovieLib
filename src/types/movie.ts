@@ -4,7 +4,6 @@ export interface Movie {
   posterUrl: string;
   releaseYear: number;
   country: string[];
-  language: string;
   genres: string[];
   plot: string;
   trailerDailyMotionId: string;

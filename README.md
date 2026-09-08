@@ -5,7 +5,7 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 ## Features
 
 - Random movie recommendation on the home page;
-- Top 9 movie collection;
+- Top 10 movie collection;
 - Genre list and movies from a selected genre;
 - Movie search by title with a request debounce;
 - Detailed movie page with rating, plot, cast and crew, budget, earnings, and a DailyMotion trailer;
@@ -13,7 +13,7 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 - JWT authentication and automatic session restoration;
 - Adding and removing movies from favorites;
 - User profile with a list of favorite movies;
-- Responsive movie cards and a Top 9 carousel powered by Swiper.
+- Responsive movie cards and a Top 10 carousel powered by Swiper.
 
 ## Tech Stack
 
@@ -111,7 +111,7 @@ From `backend/`:
 
 | Route | Description |
 | --- | --- |
-| `/` | Home page with a random movie and Top 9 |
+| `/` | Home page with a random movie and Top 10 |
 | `/genres` | Genre list |
 | `/genres/:genreName` | Movies from the selected genre |
 | `/movie/:movieId` | Detailed movie information |
@@ -129,7 +129,7 @@ All client requests use the address from `VITE_API_URL`. The token from `localSt
 | --- | --- | --- |
 | `GET` | `/health` | Check server availability |
 | `GET` | `/movie/random` | Get a random movie |
-| `GET` | `/movie/top10` | Get the movie collection; the client displays Top 9 |
+| `GET` | `/movie/top10` | Get the movie collection; the client displays Top 10 |
 | `GET` | `/movie/genres` | Get the genre list |
 | `GET` | `/movie/:id` | Get a movie by ID |
 | `GET` | `/movie?genre=<name>` | Get movies from a selected genre |

@@ -28,7 +28,7 @@ export function HomePage(): JSX.Element {
       ]);
 
       setRandomMovie(randomMovieData);
-      const top = topMoviesData.slice(0, 9);
+      const top = topMoviesData.slice(0, 10);
       setTopMovies(top);
     } catch (error) {
       setErrorMessage("Failed to load movies :(");

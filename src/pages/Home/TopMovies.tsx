@@ -15,7 +15,7 @@ export default function TopMovies({ movies }: TopMoviesProps): JSX.Element {
       <div className="home__top-header">
         <div>
           <p className="home__top-eyebrow">Evening selection</p>
-          <h2 className="home__top-title">Top 9 movies</h2>
+          <h2 className="home__top-title">Top 10 movies</h2>
           <p className="home__top-subtitle">
             A quick choice for your evening movie — high-rated films.
           </p>
