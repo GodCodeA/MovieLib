@@ -165,8 +165,7 @@ const movies = [
     language: "en",
     genres: ["history", "action", "drama"],
     plot: "Roman Empire. The fearless and noble general Maximus is idolized by his soldiers, and the elderly Emperor Marcus Aurelius trusts him implicitly, treating him like a son. However, this seasoned warrior, ready to face any opponent in a fair fight, finds himself powerless against the wily intrigues of the court. Commodus, Marcus Aurelius's son, murders his father, who had planned to make Maximus his successor instead of him, and seizes power. Determined to rid himself of a dangerous rival who refuses to swear allegiance to him, Commodus orders the death of Maximus and his entire family. Miraculously surviving but unable to save his loved ones, Maximus is captured by a slave trader, who sells him to Proximo, the organizer of gladiatorial fights. Thus, the legendary general becomes a gladiator. But soon he will have the chance to meet his mortal enemy face to face.",
-    trailerYouTubeId:
-      "uvbavW31adA&pp=ygURZ2xhZGlhdG9yIHRyYWlsZXLSBwkJGwwBhyohjO8%3D",
+    trailerYouTubeId: "uvbavW31adA",
     director: ["Ridley Scott"],
     writer: ["David Franzoni", "John Logan", "William Nicholson"],
     producer: ["David Franzoni", "Branko Lustig", "Douglas Wick"],

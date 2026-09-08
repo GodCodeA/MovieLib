@@ -48,6 +48,11 @@ export default function HomeHero({
         >
           {movie.imdbRating >= 7.5 ? `Top rating • ${movie.imdbRating}` : null}
         </p>
+        <img
+          className="home__hero-mobile-image"
+          src={movie.backdropUrl ?? movie.posterUrl}
+          alt={movie.title}
+        />
 
         <div className="home__hero-meta">
           <span>{movie.releaseYear}</span>

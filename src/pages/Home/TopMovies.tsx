@@ -32,14 +32,13 @@ export default function TopMovies({ movies }: TopMoviesProps): JSX.Element {
           loop={true}
           watchOverflow={false}
           centeredSlides={false}
-          slidesPerView={3}
-          slidesPerGroup={4}
+          slidesPerView={2}
+          slidesPerGroup={1}
           spaceBetween={10}
           speed={300}
           navigation
           breakpoints={{
-            640: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 18 },
-            900: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 18 },
+            640: { slidesPerView: 3, spaceBetween: 18 },
           }}
         >
           {movies.map((movie) => (
