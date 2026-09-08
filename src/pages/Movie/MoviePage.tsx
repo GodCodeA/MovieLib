@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
 import {
   addMovieToFavorites,
   getMovieById,
@@ -237,11 +236,13 @@ export function MoviePage(): JSX.Element {
             <h2 className="movie__story-title">Trailer</h2>
 
             <div className="movie__trailer-player">
-              <ReactPlayer
-                src={`https://www.dailymotion.com/video/${movie.trailerDailyMotionId}`}
-                width="100%"
-                height="100%"
-                controls
+              <iframe
+                src={`https://www.dailymotion.com/embed/video/${movie.trailerDailyMotionId}`}
+                title={`Trailer for ${movie.title}`}
+                width="640"
+                height="360"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
               />
             </div>
           </div>
