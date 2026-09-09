@@ -80,6 +80,14 @@
   width: 100%;
   max-width: 900px;
   aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.movie__trailer-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .movie__trailer-player > div {
@@ -138,5 +146,9 @@
 
   .movie__text {
     border-block-end: 1px solid rgb(255, 255, 255, 0.12);
+  }
+
+  .movie__trailer-player {
+    max-width: 100%;
   }
 }

@@ -233,10 +233,9 @@ export function MoviePage(): JSX.Element {
 
             <div className="movie__trailer-player">
               <iframe
+                className="movie__trailer-iframe"
                 src={`https://www.dailymotion.com/embed/video/${movie.trailerDailyMotionId}`}
                 title={`Trailer for ${movie.title}`}
-                width="640"
-                height="360"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
               />
