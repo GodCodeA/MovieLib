@@ -14,6 +14,7 @@ import { Movie } from "../../types/movie";
 import formatRuntime from "../../utils/formatRuntime";
 import formatNumber from "../../utils/formatNumber";
 import "./index.css";
+import Loader from "../../components/Loader/loader";
 
 export function MoviePage(): JSX.Element {
   const { movieId = "" } = useParams();
@@ -82,7 +83,11 @@ export function MoviePage(): JSX.Element {
   }
 
   if (isLoading) {
-    return <p>Loading movie...</p>;
+    return (
+      <div className="movie__loader-wrapper">
+        <Loader />
+      </div>
+    );
   }
 
   if (errorMessage && !movie) {

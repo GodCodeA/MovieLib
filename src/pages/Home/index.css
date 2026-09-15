@@ -242,6 +242,15 @@
   border-radius: 8px;
 }
 
+/* loader wrapper */
+.home__loader-wrapper {
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .home__hero {
     min-height: unset;

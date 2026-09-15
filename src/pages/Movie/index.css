@@ -95,6 +95,15 @@
   height: 100%;
 }
 
+/* loader wrapper */
+.movie__loader-wrapper {
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 1024px) {
   .movie__wrapper {
     grid-template-columns: 1fr;

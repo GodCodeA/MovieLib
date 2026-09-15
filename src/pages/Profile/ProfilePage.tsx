@@ -3,12 +3,15 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { clearUser } from "../../store/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { clearFavoriteMovies } from "../../store/favoritesSlice";
+import Loader from "../../components/Loader/loader";
 import "./index.css";
 
 export function ProfilePage(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user, isAuthorized } = useAppSelector((state) => state.user);
+  const { user, isAuthorized, isLoading } = useAppSelector(
+    (state) => state.user,
+  );
   const favoriteMovies = useAppSelector((state) => state.favorites.movies);
   const favoritesError = useAppSelector((state) => state.favorites.error);
 
@@ -23,6 +26,14 @@ export function ProfilePage(): JSX.Element {
       dispatch(clearFavoriteMovies());
       navigate("/");
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="profile__loader-wrapper">
+        <Loader />
+      </div>
+    );
   }
 
   if (!isAuthorized || !user) {

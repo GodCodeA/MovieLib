@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { getMoviesByGenre } from "../../api/moviesApi";
 import { Movie } from "../../types/movie";
+import Loader from "../../components/Loader/loader";
 import "./index.css";
 
 const MOVIES_PORTION_SIZE = 10;
@@ -73,7 +74,11 @@ export function GenreDetailsPage(): JSX.Element {
   const hasMoreMovies = visibleMoviesCount < movies.length;
 
   if (isLoading) {
-    return <p>Loading movies</p>;
+    return (
+      <div className="genre-details__loader-wrapper">
+        <Loader />
+      </div>
+    );
   }
 
   if (errorMessage) {

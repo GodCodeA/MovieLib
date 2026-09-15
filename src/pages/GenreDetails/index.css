@@ -59,6 +59,15 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
+/* loader wrapper */
+.genre-details__loader-wrapper {
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 520px) {
   .genre-details {
     padding: 30px 0;

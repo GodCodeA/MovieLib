@@ -3,6 +3,7 @@ import { getRandomMovie, getTopMovies } from "../../api/moviesApi";
 import { Movie } from "../../types/movie";
 import HomeHero from "./HomeHero";
 import TopMovies from "./TopMovies";
+import Loader from "../../components/Loader/loader";
 import "./index.css";
 
 export function HomePage(): JSX.Element {
@@ -51,7 +52,11 @@ export function HomePage(): JSX.Element {
   }
 
   if (isLoading) {
-    return <p className="home__page-loading">Loading homepage...</p>;
+    return (
+      <div className="home__loader-wrapper">
+        <Loader />
+      </div>
+    );
   }
 
   if (errorMessage) {

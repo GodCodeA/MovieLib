@@ -4,6 +4,7 @@ import { getGenres } from "../../api/moviesApi";
 import { Genre } from "../../types/genre";
 import { getGenreImage } from "../../utils/genreImages";
 import "./index.css";
+import Loader from "../../components/Loader/loader";
 
 export function GenresPage(): JSX.Element {
   const [genres, setGenres] = useState<Genre[]>([]);
@@ -34,7 +35,11 @@ export function GenresPage(): JSX.Element {
   }
 
   if (isLoading) {
-    return <p>Loading genres...</p>;
+    return (
+      <div className="genres__loader-wrapper">
+        <Loader />
+      </div>
+    );
   }
 
   if (errorMessage) {
