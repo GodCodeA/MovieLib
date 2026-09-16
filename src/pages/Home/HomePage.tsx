@@ -34,7 +34,7 @@ export function HomePage(): JSX.Element {
     } catch (error) {
       setErrorMessage("Failed to load movies :(");
     } finally {
-      setIsLoading(false);
+      setIsLoading(true);
     }
   }
 
