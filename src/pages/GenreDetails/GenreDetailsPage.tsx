@@ -84,6 +84,7 @@ export function GenreDetailsPage(): JSX.Element {
   if (errorMessage) {
     return <p>{errorMessage}</p>;
   }
+  
   return (
     <section className="genre-details">
       <div className="container">
