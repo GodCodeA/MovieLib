@@ -47,6 +47,8 @@ button {
 }
 
 .header {
+  position: relative;
+  z-index: 20;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -79,6 +81,10 @@ button {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.header__search {
+  position: relative;
 }
 
 .navigation__link {

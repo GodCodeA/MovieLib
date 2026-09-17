@@ -52,13 +52,19 @@ export function MainLayout(): JSX.Element {
             <NavLink to="/genres" className="navigation__link">
               Genres
             </NavLink>
-            <button
-              type="button"
-              className="navigation__link navigation__button"
-              onClick={openSearchModal}
-            >
-              Search
-            </button>
+            <div className="header__search">
+              <button
+                type="button"
+                className="navigation__link navigation__button"
+                onClick={openSearchModal}
+              >
+                Search
+              </button>
+              <SearchModal
+                isOpen={isSearchModalOpen}
+                onClose={closeSearchModal}
+              />
+            </div>
           </nav>
 
           {isAuthorized && user ? (
@@ -82,7 +88,6 @@ export function MainLayout(): JSX.Element {
       </main>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
-      <SearchModal isOpen={isSearchModalOpen} onClose={closeSearchModal} />
     </div>
   );
 }

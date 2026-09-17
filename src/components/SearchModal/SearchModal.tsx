@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { searchMoviesByTitle } from "../../api/moviesApi";
 import { Movie } from "../../types/movie";
@@ -18,6 +18,7 @@ export function SearchModal({
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (!isOpen) {
@@ -41,6 +42,21 @@ export function SearchModal({
     return () => window.clearTimeout(timeoutId);
   }, [query, isOpen]);
 
+  useEffect(() => {
+    if (isOpen) {
+      inputRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent): void {
+      if (event.key === "Escape") onClose();
+    }
+
+    if (isOpen) window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   async function loadMovies(title: string): Promise<void> {
     try {
       setIsLoading(true);
@@ -60,7 +76,8 @@ export function SearchModal({
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <>
+      <div className="search-overlay" onClick={onClose} />
       <div
         className="search-modal"
         onClick={(event) => event.stopPropagation()}
@@ -74,51 +91,51 @@ export function SearchModal({
           <X />
         </button>
 
-        <h2 className="search-modal__title">Search movies</h2>
-
         <input
+          ref={inputRef}
           type="text"
-          placeholder="Enter movie title"
+          placeholder="Search..."
           className="search-modal__input"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
 
-        <div className="search-modal__results">
-          {isLoading && <p>Searching movies...</p>}
+        {query.trim() && (
+          <div className="search-modal__results">
+            {isLoading && <p>Searching movies...</p>}
 
-          {!isLoading && errorMessage && (
-            <p className="search-modal__error">{errorMessage}</p>
-          )}
+            {!isLoading && errorMessage && (
+              <p className="search-modal__error">{errorMessage}</p>
+            )}
 
-          {!isLoading &&
-            !errorMessage &&
-            query.trim() &&
-            movies.length === 0 && <p>Nothing found.</p>}
+            {!isLoading && !errorMessage && movies.length === 0 && (
+              <p>Nothing found.</p>
+            )}
 
-          {!isLoading &&
-            movies.map((movie) => (
-              <Link
-                key={movie.id}
-                to={`/movie/${movie.id}`}
-                className="search-result"
-                onClick={onClose}
-              >
-                <img
-                  src={movie.posterUrl}
-                  alt={movie.title}
-                  className="search-result__image"
-                />
-                <div className="search-result__content">
-                  <h3 className="search-result__title">{movie.title}</h3>
-                  <p className="search-result__meta">
-                    {movie.releaseYear} • Rating {movie.imdbRating}
-                  </p>
-                </div>
-              </Link>
-            ))}
-        </div>
+            {!isLoading &&
+              movies.map((movie) => (
+                <Link
+                  key={movie.id}
+                  to={`/movie/${movie.id}`}
+                  className="search-result"
+                  onClick={onClose}
+                >
+                  <img
+                    src={movie.posterUrl}
+                    alt={movie.title}
+                    className="search-result__image"
+                  />
+                  <div className="search-result__content">
+                    <h3 className="search-result__title">{movie.title}</h3>
+                    <p className="search-result__meta">
+                      {movie.releaseYear} • Rating {movie.imdbRating}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }
