@@ -227,7 +227,7 @@ export function MoviePage(): JSX.Element {
               </div>
             </div>
 
-            {errorMessage && <p className="auth-form__error">{errorMessage}</p>}
+            {errorMessage && <p className="movie__error">{errorMessage}</p>}
           </div>
         </div>
         <h2 className="movie__story-title">Storyline</h2>

@@ -45,11 +45,15 @@ export async function removeMovieFromFavorites(movieId: string): Promise<void> {
   await httpClient.delete(`/favorites/${movieId}`);
 }
 
-export async function searchMoviesByTitle(title: string): Promise<Movie[]> {
+export async function searchMoviesByTitle(
+  title: string,
+  signal?: AbortSignal,
+): Promise<Movie[]> {
   const response = await httpClient.get<Movie[]>("/movie", {
     params: {
       title,
     },
+    signal,
   });
 
   return response.data;

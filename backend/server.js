@@ -868,7 +868,11 @@ const movies = [
 const favoriteMoviesByUser = new Map();
 
 const app = express();
-const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET environment variable is required");
+}
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -970,7 +974,7 @@ app.post("/register", async (req, res) => {
   const existingUser = users.find((user) => user.email === email);
 
   if (existingUser) {
-    return res.status(400).json({ message: "User already exists" });
+    return res.status(409).json({ message: "User already exists" });
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
