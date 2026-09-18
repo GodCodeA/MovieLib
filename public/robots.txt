@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Закрыть только приватные/админские части, если они появятся
+# Disallow: /admin/
+# Disallow: /private/
+# Disallow: /profile/
