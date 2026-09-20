@@ -1599,6 +1599,27 @@ const movies = [
   },
 ];
 
+const randomMovieView = (movie) => ({
+  id: movie.id,
+  title: movie.title,
+  posterUrl: movie.posterUrl,
+  backdropUrl: movie.backdropUrl,
+  releaseYear: movie.releaseYear,
+  imdbRating: movie.imdbRating,
+  genres: movie.genres,
+  plot: movie.plot,
+});
+
+const movieListView = movies.map((movie) => ({
+  id: movie.id,
+  title: movie.title,
+  posterUrl: movie.posterUrl,
+  backdropUrl: movie.backdropUrl,
+  releaseYear: movie.releaseYear,
+  imdbRating: movie.imdbRating,
+  genres: movie.genres,
+}));
+
 const favoriteMoviesByUser = new Map();
 
 const app = express();
@@ -1610,7 +1631,12 @@ if (!JWT_SECRET) {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use(
+  "/images",
+  express.static(path.join(__dirname, "public/images"), {
+    maxAge: "1d",
+  }),
+);
 app.use("/genres", express.static(path.join(__dirname, "public/genres")));
 
 app.use(cors());
@@ -1653,11 +1679,13 @@ function authMiddleware(req, res, next) {
 
 app.get("/movie/random", (req, res) => {
   const movie = movies[Math.floor(Math.random() * movies.length)];
-  res.json(movie);
+  res.json(randomMovieView(movie));
 });
 
 app.get("/movie/top10", (req, res) => {
-  res.json(movies.slice(0, 10));
+  const limit = Number(req.query.limit) || 3;
+  res.set("Cache-Control", "public, max-age=300, s-maxage=600");
+  res.json(movieListView.slice(0, limit));
 });
 
 app.get("/movie/genres", (req, res) => {

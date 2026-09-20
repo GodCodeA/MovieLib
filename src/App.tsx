@@ -1,6 +1,7 @@
 import { AppRouter } from "./router/AppRouter";
 import { useEffect } from "react";
 import { getFavoriteMovies } from "./api/moviesApi";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import { getCurrentUser } from "./api/authApi";
 import { useAppDispatch } from "./hooks/redux";
 import {
@@ -66,7 +67,12 @@ function App(): JSX.Element {
       dispatch(finishUserLoading());
     }
   }
-  return <AppRouter />;
+  return (
+    <>
+      <ScrollToTop />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;

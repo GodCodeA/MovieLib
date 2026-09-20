@@ -96,6 +96,7 @@ export function ProfilePage(): JSX.Element {
                   >
                     <img
                       src={movie.posterUrl}
+                      loading="lazy"
                       alt={movie.title}
                       className="profile__movie-image"
                       title={movie.title}

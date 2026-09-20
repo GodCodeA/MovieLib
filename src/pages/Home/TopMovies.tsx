@@ -71,6 +71,7 @@ export default function TopMovies({ movies }: TopMoviesProps): JSX.Element {
                 <Link to={`/movie/${movie.id}`} className="home__top-card">
                   <img
                     src={movie.posterUrl}
+                    loading="lazy"
                     alt={movie.title}
                     className="home__top-card-image"
                     title={movie.title}

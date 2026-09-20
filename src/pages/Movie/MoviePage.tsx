@@ -109,6 +109,7 @@ export function MoviePage(): JSX.Element {
           <div className="movie__poster-wrapper">
             <img
               src={movie.posterUrl}
+              loading="lazy"
               alt={movie.title}
               className="movie__poster"
               title={movie.title}

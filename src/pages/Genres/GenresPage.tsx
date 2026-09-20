@@ -60,6 +60,7 @@ export function GenresPage(): JSX.Element {
             >
               <img
                 src={genre.imageUrl}
+                loading="lazy"
                 alt={genre.name}
                 className="genres__image"
               />

@@ -165,6 +165,7 @@ export function SearchModal({
                 >
                   <img
                     src={movie.posterUrl}
+                    loading="lazy"
                     alt={movie.title}
                     className="search-result__image"
                   />

@@ -51,16 +51,14 @@ export default function HomeHero({
         <img
           className="home__hero-mobile-image"
           src={movie.backdropUrl ?? movie.posterUrl}
+          loading="lazy"
           alt={movie.title}
         />
 
         <div className="home__hero-meta">
           <span>{movie.releaseYear}</span>
           <span>IMDb {movie.imdbRating}/10</span>
-          <span>{formatRuntime(movie.runtime)}</span>
         </div>
-
-        <p className="home__hero-description">{shortMoviePlot(movie.plot)}</p>
 
         <div className="home__hero-genres">
           {movie.genres.slice(0, 4).map((genre) => (
