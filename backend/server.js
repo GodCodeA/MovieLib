@@ -1682,7 +1682,7 @@ app.get("/movie/random", (req, res) => {
 });
 
 app.get("/movie/top10", (req, res) => {
-  const limit = Number(req.query.limit) || 3;
+  const limit = Number(req.query.limit) || 10;
   res.set("Cache-Control", "public, max-age=300, s-maxage=600");
   res.json(movieListView.slice(0, limit));
 });

@@ -1,7 +1,5 @@
 import { Movie } from "../../types/movie";
 import { Link } from "react-router-dom";
-import formatRuntime from "../../utils/formatRuntime";
-import shortMoviePlot from "../../utils/shortMoviePlot";
 
 interface HomeHeroProps {
   movie: Movie;

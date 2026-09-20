@@ -25,12 +25,11 @@ export function HomePage(): JSX.Element {
 
       const [randomMovieData, topMoviesData] = await Promise.all([
         getRandomMovie(),
-        getTopMovies(),
+        getTopMovies(10),
       ]);
 
       setRandomMovie(randomMovieData);
-      const top = topMoviesData.slice(0, 10);
-      setTopMovies(top);
+      setTopMovies(topMoviesData);
     } catch (error) {
       setErrorMessage("Failed to load movies :(");
     } finally {

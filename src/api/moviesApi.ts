@@ -1,8 +1,10 @@
 import { httpClient } from "./http";
 import { Movie } from "../types/movie";
 
-export async function getTopMovies(): Promise<Movie[]> {
-  const response = await httpClient.get<Movie[]>("/movie/top10");
+export async function getTopMovies(limit = 10): Promise<Movie[]> {
+  const response = await httpClient.get<Movie[]>('/movie/top10', {
+    params: { limit },
+  });
   return response.data;
 }
 
