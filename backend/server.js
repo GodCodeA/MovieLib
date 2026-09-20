@@ -1607,7 +1607,6 @@ const randomMovieView = (movie) => ({
   releaseYear: movie.releaseYear,
   imdbRating: movie.imdbRating,
   genres: movie.genres,
-  plot: movie.plot,
 });
 
 const movieListView = movies.map((movie) => ({
