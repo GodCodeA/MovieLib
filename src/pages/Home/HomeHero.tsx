@@ -60,9 +60,14 @@ export default function HomeHero({
 
         <div className="home__hero-genres">
           {movie.genres.slice(0, 4).map((genre) => (
-            <span key={genre} className="home__hero-genre">
+            <Link
+              key={genre}
+              to={`/genres/${genre}`}
+              title={`Open ${genre} movies`}
+              className="home__hero-genre"
+            >
               {genre}
-            </span>
+            </Link>
           ))}
         </div>
 

@@ -16,9 +16,11 @@ import {
   setFavoritesError,
 } from "./store/favoritesSlice";
 import { getFavoritesErrorMessage } from "./utils/Errors";
+import { useNavigate } from "react-router-dom";
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkUserSession();
@@ -46,6 +48,7 @@ function App(): JSX.Element {
 
       if (profileResult.status === "fulfilled") {
         dispatch(setUser(profileResult.value));
+        navigate("/profile");
       } else {
         localStorage.removeItem("token");
         dispatch(clearUser());

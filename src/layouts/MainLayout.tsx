@@ -74,7 +74,7 @@ export function MainLayout(): JSX.Element {
           ) : (
             <button
               type="button"
-              className="auth-button btn"
+              className="auth-button btn btn-auth"
               onClick={openAuthModal}
             >
               Sign in
@@ -87,6 +87,13 @@ export function MainLayout(): JSX.Element {
         <Outlet />
       </main>
 
+      <footer className="footer">
+        <div className="container footer__content">
+          <Link to="/" className="logo">
+            MovieLib
+          </Link>
+        </div>
+      </footer>
       <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />
     </div>
   );

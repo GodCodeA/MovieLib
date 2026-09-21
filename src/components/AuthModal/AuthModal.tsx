@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../hooks/redux";
 import { setUser } from "../../store/userSlice";
 import { getFavoriteMovies } from "../../api/moviesApi";
 import { setFavoriteMovies } from "../../store/favoritesSlice";
+import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
 import "./index.css";
 
@@ -19,18 +20,16 @@ export function AuthModal({
   onClose,
 }: AuthModalProps): JSX.Element | null {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
 
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
-  const [isEmailTouched, setIsEmailTouched] = useState(false);
   const [password, setPassword] = useState("");
-  const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const [name, setName] = useState("");
-  const [isNameTouched, setIsNameTouched] = useState(false);
   const [surname, setSurname] = useState("");
-  const [isSurnameTouched, setIsSurnameTouched] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const normalizedEmail = email.trim().toLowerCase();
@@ -48,10 +47,7 @@ export function AuthModal({
     setSurname("");
     setErrorMessage("");
     setSuccessMessage("");
-    setIsEmailTouched(false);
-    setIsPasswordTouched(false);
-    setIsSurnameTouched(false);
-    setIsNameTouched(false);
+    setHasSubmitted(false);
   }
 
   function switchToLogin(): void {
@@ -68,6 +64,7 @@ export function AuthModal({
     event: FormEvent<HTMLFormElement>,
   ): Promise<void> {
     event.preventDefault();
+    setHasSubmitted(true);
 
     if (!email || !password || (mode === "register" && (!name || !surname))) {
       setErrorMessage("All fields are required");
@@ -106,6 +103,7 @@ export function AuthModal({
 
         localStorage.setItem("token", loginResponse.token);
         dispatch(setUser(loginResponse.user));
+        navigate("/profile")
 
         try {
           const favoriteMovies = await getFavoriteMovies();
@@ -153,11 +151,11 @@ export function AuthModal({
     }
   }
 
-  const hasEmailError = isEmailTouched && !email.trim();
-  const hasPasswordError = isPasswordTouched && !password.trim();
-  const hasNameError = mode === "register" && isNameTouched && !name.trim();
+  const hasEmailError = hasSubmitted && !email.trim();
+  const hasPasswordError = hasSubmitted && !password.trim();
+  const hasNameError = mode === "register" && hasSubmitted && !name.trim();
   const hasSurnameError =
-    mode === "register" && isSurnameTouched && !surname.trim();
+    mode === "register" && hasSubmitted && !surname.trim();
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -186,17 +184,21 @@ export function AuthModal({
                 type="text"
                 placeholder="First name"
                 className={`auth-modal__input ${hasNameError ? "auth-modal__input_error" : ""}`}
-                onBlur={() => setIsNameTouched(true)}
                 value={name}
-                onChange={(event) => setName(event.target.value)}
+                onChange={(event) => {
+                  setName(event.target.value);
+                  if (errorMessage) setErrorMessage("");
+                }}
               />
               <input
                 type="text"
                 placeholder="Last name"
                 className={`auth-modal__input ${hasSurnameError ? "auth-modal__input_error" : ""}`}
-                onBlur={() => setIsSurnameTouched(true)}
                 value={surname}
-                onChange={(event) => setSurname(event.target.value)}
+                onChange={(event) => {
+                  setSurname(event.target.value);
+                  if (errorMessage) setErrorMessage("");
+                }}
               />
             </>
           )}
@@ -204,35 +206,40 @@ export function AuthModal({
             type="email"
             placeholder="Email"
             className={`auth-modal__input ${hasEmailError ? "auth-modal__input_error" : ""}`}
-            onBlur={() => setIsEmailTouched(true)}
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => {
+              setEmail(event.target.value);
+              if (errorMessage) setErrorMessage("");
+            }}
           />
 
           <input
             type="password"
             placeholder="Password"
             className={`auth-modal__input ${hasPasswordError ? "auth-modal__input_error" : ""}`}
-            onBlur={() => setIsPasswordTouched(true)}
             value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            onChange={(event) => {
+              setPassword(event.target.value);
+              if (errorMessage) setErrorMessage("");
+            }}
           />
 
           {errorMessage && <p className="auth-modal__error">{errorMessage}</p>}
-
-          <button
-            type="submit"
-            className="auth-modal__submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting
-              ? mode === "login"
-                ? "Logging in..."
-                : "Registering..."
-              : mode === "login"
-                ? "Log in"
-                : "Register"}
-          </button>
+          <div className="auth-modal__submit-wrap">
+            <button
+              type="submit"
+              className="auth-modal__submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting
+                ? mode === "login"
+                  ? "Logging in..."
+                  : "Registering..."
+                : mode === "login"
+                  ? "Log in"
+                  : "Register"}
+            </button>
+          </div>
         </form>
 
         <div className="auth-modal__footer">
