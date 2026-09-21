@@ -15,8 +15,8 @@ const movies = [
   {
     id: 1,
     title: "The Matrix",
-    posterUrl: `${PUBLIC_URL}/images/matrix_poster_compressed_compressed.avif`,
-    backdropUrl: `${PUBLIC_URL}/images/matrix_bg_compressed_compressed.avif`,
+    posterUrl: `${PUBLIC_URL}/images/matrix_poster_compressed.avif`,
+    backdropUrl: `${PUBLIC_URL}/images/matrix_bg_compressed.avif`,
     releaseYear: 1999,
     imdbRating: 8.7,
     quantityImdbRating: 2200000,
