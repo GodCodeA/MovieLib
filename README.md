@@ -65,8 +65,8 @@ PUBLIC_URL=http://localhost:3001
 Movie images are stored in `backend/public/images` and are served from the `/images` path. For example:
 
 ```text
-backend/public/images/matrix_poster.avif
-http://localhost:3001/images/matrix_poster.avif
+backend/public/images/matrix_poster_compressed.avif
+http://localhost:3001/images/matrix_poster_compressed.avif
 ```
 
 ### 2. Frontend

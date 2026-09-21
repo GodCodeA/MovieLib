@@ -33,13 +33,13 @@ export default function HomeHero({
         <p className="home__hero-eyebrow">
           MovieLib — choose a movie in seconds
         </p>
-        <h1 className="home__hero-title" title={movie.title}>
-          {movie.title}
-        </h1>
         <p className="home__hero-subtitle">
           A random movie, genre collections, and top 10 — the perfect idea for
           the evening.
         </p>
+        <h1 className="home__hero-title" title={movie.title}>
+          {movie.title}
+        </h1>
         <p
           className="home__hero-top-rating"
           title="Movie with rating above 8.5"
@@ -64,7 +64,7 @@ export default function HomeHero({
               key={genre}
               to={`/genres/${genre}`}
               title={`Open ${genre} movies`}
-              className="home__hero-genre"
+              className="home__hero-genre-btn btn btn-hero-genre"
             >
               {genre}
             </Link>
@@ -74,7 +74,7 @@ export default function HomeHero({
         <div className="home__hero-actions">
           <Link
             to={`/movie/${movie.id}`}
-            className="home__hero-button home__hero-button_primary"
+            className="home__hero-button btn btn-hero"
             title="Go to movie page"
           >
             View movie
@@ -82,7 +82,7 @@ export default function HomeHero({
 
           <button
             type="button"
-            className="home__hero-button home__hero-button_secondary"
+            className="home__hero-button btn btn-hero"
             onClick={onNextMovie}
             disabled={isLoading}
             title={

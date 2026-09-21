@@ -1,10 +1,12 @@
 .btn {
   background-color: #f5f5f5;
+  color: #000000;
   padding: 10px 16px;
   border-radius: 10px;
+  white-space: nowrap;
   transition:
     color 0.2s ease,
-    backgroundColor 0.2s ease;
+    background-Color 0.2s ease;
 }
 
 .btn-auth {
@@ -25,6 +27,126 @@
 }
 
 .btn-logout:hover {
-   background-color: rgba(190, 55, 65);
-   color: #f5f5f5;
+  background-color: rgba(190, 55, 65);
+  color: #f5f5f5;
+}
+
+.btn-hero-genre {
+  padding: 6px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #f5f5f5;
+}
+
+.btn-hero-genre:hover {
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+.btn-hero {
+  background-image: linear-gradient(#464d55, #25292e);
+  border-radius: 8px;
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.1),
+    0 3px 6px rgba(0, 0, 0, 0.05);
+  color: #f5f5f5;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 13px 26px;
+  text-decoration: none;
+}
+
+.btn-hero:hover {
+  box-shadow: rgba(0, 1, 0, 0.2) 0 2px 8px;
+  opacity: 0.85;
+}
+
+.btn-hero:active {
+  outline: 0;
+}
+
+.btn-hero:focus {
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 0 3px;
+}
+
+.btn-favorite {
+  background-color: initial;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  min-height: 64px;
+  padding: 19px 26px;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .btn-favorite {
+    padding: 19px 32px;
+  }
+}
+
+.btn-favorite:before,
+.btn-favorite:after {
+  border-radius: 80px;
+}
+
+.btn-favorite:before {
+  background-color: rgba(249, 58, 19, 0.32);
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -2;
+}
+
+.btn-favorite:after {
+  background-color: initial;
+  background-image: linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
+  bottom: 4px;
+  content: "";
+  display: block;
+  left: 4px;
+  overflow: hidden;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  transition: all 100ms ease-out;
+  z-index: -1;
+}
+
+.btn-favorite:hover:not(:disabled):after {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  transition-timing-function: ease-in;
+}
+
+.btn-favorite:active:not(:disabled) {
+  color: #ccc;
+}
+.btn-favorite:active:not(:disabled):after {
+  background-image:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  top: 4px;
+}
+
+.btn-favorite:disabled {
+  cursor: default;
+  opacity: 0.24;
+}
+
+@media (max-width: 420px) {
+  .btn-hero {
+    padding: 10px 19px;
+    font-size: 16px;
+  }
 }

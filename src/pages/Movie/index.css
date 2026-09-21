@@ -69,12 +69,6 @@
   margin: 0 0 25px;
 }
 
-.movie__button-favorite {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-}
-
 .movie__error {
   margin: 12px 0 0;
   color: #ff6b6b;

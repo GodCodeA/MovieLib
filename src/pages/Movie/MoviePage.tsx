@@ -121,7 +121,7 @@ export function MoviePage(): JSX.Element {
           <div className="movie__actions">
             <button
               type="button"
-              className="movie__button-favorite btn"
+              className="movie__button-favorite btn btn-favorite"
               onClick={toggleFavoriteMovie}
               disabled={isFavoriteLoading}
               title={
