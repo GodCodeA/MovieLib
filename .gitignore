@@ -2,6 +2,7 @@ node_modules
 .env.local
 dist
 .vite
+.DS_Store
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts

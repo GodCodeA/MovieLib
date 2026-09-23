@@ -48,8 +48,8 @@ export default function HomeHero({
         </p>
         <img
           className="home__hero-mobile-image"
+          fetchPriority="high"
           src={movie.backdropUrl ?? movie.posterUrl}
-          loading="lazy"
           alt={movie.title}
         />
 

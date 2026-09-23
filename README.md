@@ -2,6 +2,8 @@
 
 MovieLib is an application for discovering movies and choosing a film for the evening. The project consists of a React client and a custom Express API.
 
+**Live Demo:** https://movielib.bishkek-2020.workers.dev
+
 ## Features
 
 - Random movie recommendation on the home page;
