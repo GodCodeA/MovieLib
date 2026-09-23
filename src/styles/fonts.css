@@ -2,6 +2,7 @@
   font-family: "Manrope";
   src: url("/fonts/Manrope-Regular.woff2") format("woff2");
   font-weight: 400;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -9,6 +10,7 @@
   font-family: "Manrope";
   src: url("/fonts/Manrope-Medium.woff2") format("woff2");
   font-weight: 500;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -16,6 +18,7 @@
   font-family: "Manrope";
   src: url("/fonts/Manrope-SemiBold.woff2") format("woff2");
   font-weight: 600;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -23,6 +26,7 @@
   font-family: "Manrope";
   src: url("/fonts/Manrope-Bold.woff2") format("woff2");
   font-weight: 700;
+  font-display: swap;
   font-style: normal;
 }
 
@@ -30,5 +34,6 @@
   font-family: "Bebas Neue";
   src: url("/fonts/BebasNeue-Regular.woff2") format("woff2");
   font-weight: 400;
+  font-display: swap;
   font-style: normal;
 }

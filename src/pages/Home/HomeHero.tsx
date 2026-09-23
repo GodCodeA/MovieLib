@@ -51,6 +51,8 @@ export default function HomeHero({
           fetchPriority="high"
           src={movie.backdropUrl ?? movie.posterUrl}
           alt={movie.title}
+          width={1920}
+          height={1080}
         />
 
         <div className="home__hero-meta">
