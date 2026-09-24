@@ -10,7 +10,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-/* fill:#0A0909 */
 
 main {
   flex: 1;
@@ -19,6 +18,7 @@ main {
 h1 {
   font-size: 3rem;
 }
+
 h1,
 h2,
 h3 {
@@ -212,5 +212,13 @@ button {
   p {
     font-size: 0.9rem;
     line-height: 1.5;
+  }
+  
+  .logo__background {
+    width: 100px;
+  }
+
+  .logo__text {
+    font-size: 20px;
   }
 }
