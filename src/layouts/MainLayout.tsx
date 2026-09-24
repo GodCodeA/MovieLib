@@ -45,7 +45,12 @@ export function MainLayout(): JSX.Element {
       <header className="header">
         <div className="container header__content">
           <Link to="/" className="logo">
-            MovieLib
+            <img
+              className="logo__background"
+              src="/logoBg.svg"
+              alt="MovieLib background"
+            />
+            <span className="logo__text">MovieLib</span>
           </Link>
 
           <nav className="navigation">
@@ -90,7 +95,12 @@ export function MainLayout(): JSX.Element {
       <footer className="footer">
         <div className="container footer__content">
           <Link to="/" className="logo">
-            MovieLib
+            <img
+              className="logo__background"
+              src="/logoBg.svg"
+              alt="MovieLib background"
+            />
+            <span className="logo__text">MovieLib</span>
           </Link>
         </div>
       </footer>

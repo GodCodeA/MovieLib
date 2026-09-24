@@ -10,6 +10,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
+/* fill:#0A0909 */
 
 main {
   flex: 1;
@@ -33,6 +34,7 @@ p {
 a {
   color: inherit;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button {
@@ -42,6 +44,7 @@ button {
   color: unset;
   padding: unset;
   border: unset;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .app {
@@ -87,11 +90,29 @@ button {
 }
 
 .logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   font-weight: 700;
 }
 
-.logo:hover {
-  color: #c8ff76;
+.logo__background {
+  display: block;
+  width: 140px;
+  height: auto;
+}
+
+.logo__text {
+  position: absolute;
+  top: 57%;
+  left: 49%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-family: "Anton", sans-serif;
+  font-size: 28px;
+  line-height: 1;
 }
 
 .navigation {
