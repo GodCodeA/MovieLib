@@ -10,7 +10,7 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 - Top 10 movie collection;
 - Genre list and movies from a selected genre;
 - Movie search by title with a request debounce;
-- Detailed movie page with rating, plot, cast and crew, budget, earnings, and a DailyMotion trailer;
+- Detailed movie page with rating, plot, cast and crew, budget, earnings, and a Youtube trailer;
 - Registration and email/password login;
 - JWT authentication and automatic session restoration;
 - Adding and removing movies from favorites;
@@ -192,21 +192,21 @@ The `backend/` folder is part of the project and must be deployed separately fro
 
 The deployed API is available at:
 
-https://movielib-s8ab.onrender.com
+https://movielib.de.deplexo.com
 
-In Render, add these backend environment variables:
+In Deplexo, add these backend environment variables:
 
 ```text
 JWT_SECRET=<secure secret>
-PUBLIC_URL=https://movielib-s8ab.onrender.com
+PUBLIC_URL=https://movielib.de.deplexo.com
 ```
 
-The `backend/public/images` directory must be included in the deployed repository. Render serves these files at `/images/...` without changing their format or contents.
+The `backend/public/images` directory must be included in the deployed repository. Deplexo serves these files at `/images/...` without changing their format or contents.
 
 Check that this address responds to `/health` before connecting the frontend:
 
 ```text
-https://movielib-s8ab.onrender.com/health
+https://movielib.de.deplexo.com/health
 ```
 
 ### Frontend on Cloudflare Pages
@@ -216,7 +216,7 @@ https://movielib-s8ab.onrender.com/health
 3. Set the output directory to `dist`.
 4. Add the production environment variable `VITE_API_URL` with this value, without a trailing slash:
 
-	`https://movielib-s8ab.onrender.com`
+	`https://movielib.de.deplexo.com`
 5. Deploy the project again after changing the environment variable, because Vite inserts it during the build.
 
 The frontend deployed on Cloudflare is available at:
