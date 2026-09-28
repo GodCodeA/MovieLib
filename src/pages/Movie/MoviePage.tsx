@@ -243,6 +243,7 @@ export function MoviePage(): JSX.Element {
                 src={`https://www.dailymotion.com/embed/video/${movie.trailerDailyMotionId}`}
                 title={`Trailer for ${movie.title}`}
                 allow="autoplay; fullscreen; picture-in-picture"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
             </div>
