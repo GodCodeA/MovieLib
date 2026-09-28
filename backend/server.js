@@ -259,7 +259,7 @@ app.listen(PORT, () => {
 //   quantityImdbRating: ,
 //   genres: ["", ""],
 //   plot: "",
-//   trailerDailyMotionId: "",
+//   youtubeId: "",
 //   director: [""],
 //   writer: [""],
 //   producer: [""],

@@ -233,14 +233,14 @@ export function MoviePage(): JSX.Element {
         </div>
         <h2 className="movie__story-title">Storyline</h2>
         <p className="movie__description">{movie.plot}</p>
-        {movie.trailerDailyMotionId && (
+        {movie.youtubeId && (
           <div className="movie__trailer">
             <h2 className="movie__story-title">Trailer</h2>
 
             <div className="movie__trailer-player">
               <iframe
                 className="movie__trailer-iframe"
-                src={`https://www.youtube.com/embed/${movie.trailerDailyMotionId}`}
+                src={`https://www.youtube.com/embed/${movie.youtubeId}`}
                 title={`Trailer for ${movie.title}`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen

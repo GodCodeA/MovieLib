@@ -2,22 +2,22 @@ import "./index.css";
 
 interface TrailerModalProps {
   isOpen: boolean;
-  trailerDailyMotionId: string;
+  youtubeId: string;
   movieTitle: string;
   onClose: () => void;
 }
 
 export function TrailerModal({
   isOpen,
-  trailerDailyMotionId,
+  youtubeId,
   movieTitle,
   onClose,
 }: TrailerModalProps): JSX.Element | null {
-  if (!isOpen || !trailerDailyMotionId) {
+  if (!isOpen || !youtubeId) {
     return null;
   }
 
-  const trailerUrl = `https://www.dailymotion.com/embed/video/${trailerDailyMotionId}`;
+  const trailerUrl = `https://www.dailymotion.com/embed/video/${youtubeId}`;
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div

@@ -6,7 +6,7 @@ export interface Movie {
   country: string[];
   genres: string[];
   plot: string;
-  trailerDailyMotionId: string;
+  youtubeId: string;
   backdropUrl: string | null;
   // crew
   director: string[];
