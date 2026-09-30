@@ -67,6 +67,13 @@ button {
   padding: 0 20px;
 }
 
+.container--hero {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0;
+}
+
 .header {
   position: relative;
   z-index: 20;
@@ -164,19 +171,6 @@ button {
 }
 
 @media (max-width: 1024px) {
-  .header__content {
-    grid-template-columns: auto auto;
-    justify-items: baseline;
-  }
-
-  .auth-button {
-    order: 2;
-  }
-
-  .navigation {
-    order: 3;
-  }
-
   h1 {
     font-size: 3rem;
   }
@@ -191,7 +185,7 @@ button {
   h1 {
     font-size: 2.5rem;
   }
-  
+
   h2 {
     font-size: 2rem;
   }
@@ -203,6 +197,10 @@ button {
   p {
     font-size: 1rem;
     line-height: 1.5;
+  }
+
+  .container--hero {
+    padding: 0 20px;
   }
 }
 
@@ -221,7 +219,20 @@ button {
     font-size: 0.9rem;
     line-height: 1.5;
   }
-  
+
+  .header__content {
+    grid-template-columns: auto auto;
+    justify-items: baseline;
+  }
+
+  .auth-button {
+    order: 2;
+  }
+
+  .navigation {
+    order: 3;
+  }
+
   .logo__background {
     width: 100px;
   }

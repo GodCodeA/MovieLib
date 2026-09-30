@@ -1,7 +1,7 @@
 import { Movie } from "../../types/movie";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Mousewheel } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -28,17 +28,21 @@ export default function TopMovies({ movies }: TopMoviesProps): JSX.Element {
 
       <div className="home__top-list">
         <Swiper
-          modules={[Navigation]}
+          modules={[Navigation, Mousewheel]}
+          mousewheel={{
+            forceToAxis: true,
+          }}
           loop={true}
           watchOverflow={false}
           centeredSlides={false}
           slidesPerView={2}
           slidesPerGroup={1}
           spaceBetween={10}
-          speed={300}
+          speed={500}
           navigation
           breakpoints={{
             640: { slidesPerView: 3, spaceBetween: 18 },
+            1024: { slidesPerView: 4, spaceBetween: 18 },
           }}
         >
           {movies.map((movie) => (

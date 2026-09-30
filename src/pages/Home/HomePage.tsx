@@ -75,7 +75,7 @@ export function HomePage(): JSX.Element {
 
   return (
     <>
-      <div className="container">
+      <div className="container container--hero">
         {randomMovie && (
           <HomeHero
             movie={randomMovie}
@@ -83,6 +83,8 @@ export function HomePage(): JSX.Element {
             isLoading={loadRandomMovie}
           />
         )}
+      </div>
+      <div className="container">
         <TopMovies movies={topMovies} />
       </div>
     </>
