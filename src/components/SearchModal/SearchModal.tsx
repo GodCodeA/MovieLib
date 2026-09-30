@@ -170,7 +170,7 @@ export function SearchModal({
                     className="search-result__image"
                   />
                   <div className="search-result__content">
-                    <h3 className="search-result__title">{movie.title}</h3>
+                    <h4 className="search-result__title">{movie.title}</h4>
                     <p className="search-result__meta">
                       {movie.releaseYear} • Rating {movie.imdbRating}
                     </p>

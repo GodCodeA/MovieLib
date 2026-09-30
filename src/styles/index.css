@@ -21,7 +21,8 @@ h1 {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   line-height: 1.2;
   font-family: "Bebas Neue", sans-serif;
 }
@@ -29,8 +30,13 @@ h3 {
 h2 {
   font-size: 3rem;
 }
+
 h3 {
   font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.3rem;
 }
 
 p {
@@ -171,6 +177,19 @@ button {
 }
 
 @media (max-width: 1024px) {
+  .header__content {
+    grid-template-columns: auto auto;
+    justify-items: baseline;
+  }
+
+  .auth-button {
+    order: 2;
+  }
+
+  .navigation {
+    order: 3;
+  }
+
   h1 {
     font-size: 3rem;
   }
@@ -192,6 +211,10 @@ button {
 
   h3 {
     font-size: 1.6rem;
+  }
+
+  h4 {
+    font-size: 1rem;
   }
 
   p {
@@ -216,21 +239,8 @@ button {
   }
 
   p {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     line-height: 1.5;
-  }
-
-  .header__content {
-    grid-template-columns: auto auto;
-    justify-items: baseline;
-  }
-
-  .auth-button {
-    order: 2;
-  }
-
-  .navigation {
-    order: 3;
   }
 
   .logo__background {

@@ -99,7 +99,6 @@ export function GenreDetailsPage(): JSX.Element {
             >
               <img
                 src={movie.posterUrl}
-                loading="lazy"
                 alt={movie.title}
                 className="genre-details__image"
               />

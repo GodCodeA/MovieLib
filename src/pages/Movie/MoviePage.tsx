@@ -109,10 +109,11 @@ export function MoviePage(): JSX.Element {
           <div className="movie__poster-wrapper">
             <img
               src={movie.posterUrl}
-              loading="lazy"
               alt={movie.title}
               className="movie__poster"
               title={movie.title}
+              width={480}
+              height={720}
             />
           </div>
           <h1 className="movie__title" title={movie.title}>
