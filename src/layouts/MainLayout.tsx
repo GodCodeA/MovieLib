@@ -8,12 +8,10 @@ import {
 import { useAppSelector } from "../hooks/redux";
 import { useEffect, useState } from "react";
 import { AuthModal } from "../components/AuthModal/AuthModal";
-import { SearchModal } from "../components/SearchModal/SearchModal";
 
 export function MainLayout(): JSX.Element {
   const { user, isAuthorized } = useAppSelector((state) => state.user);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -23,14 +21,6 @@ export function MainLayout(): JSX.Element {
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [location, navigate]);
-
-  function openSearchModal(): void {
-    setIsSearchModalOpen(true);
-  }
-
-  function closeSearchModal(): void {
-    setIsSearchModalOpen(false);
-  }
 
   function openAuthModal(): void {
     setIsAuthModalOpen(true);
@@ -58,17 +48,9 @@ export function MainLayout(): JSX.Element {
               Genres
             </NavLink>
             <div className="header__search">
-              <button
-                type="button"
-                className="navigation__link navigation__button"
-                onClick={openSearchModal}
-              >
+              <NavLink to="/movies" className="navigation__link">
                 Search
-              </button>
-              <SearchModal
-                isOpen={isSearchModalOpen}
-                onClose={closeSearchModal}
-              />
+              </NavLink>
             </div>
           </nav>
 

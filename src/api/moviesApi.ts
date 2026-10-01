@@ -8,6 +8,11 @@ export async function getTopMovies(limit = 10): Promise<Movie[]> {
   return response.data;
 }
 
+export async function getMovies(): Promise<Movie[]> {
+  const response = await httpClient.get<Movie[]>("/movie");
+  return response.data;
+}
+
 export async function getRandomMovie(): Promise<Movie> {
   const response = await httpClient.get<Movie>("/movie/random");
   return response.data;
