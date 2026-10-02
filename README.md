@@ -8,8 +8,8 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 
 - Random movie recommendation on the home page;
 - Top 10 movie collection;
+- Full movie catalog with instant search by title;
 - Genre list and movies from a selected genre;
-- Movie search by title with a request debounce;
 - Detailed movie page with rating, plot, cast and crew, budget, earnings, and a Youtube trailer;
 - Registration and email/password login;
 - JWT authentication and automatic session restoration;
@@ -21,7 +21,7 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 
 ### Frontend
 
-- React 18;
+- React 19;
 - TypeScript;
 - Vite;
 - React Router;
@@ -114,12 +114,13 @@ From `backend/`:
 | Route | Description |
 | --- | --- |
 | `/` | Home page with a random movie and Top 10 |
+| `/movies` | Full movie catalog with search by title |
 | `/genres` | Genre list |
 | `/genres/:genreName` | Movies from the selected genre |
 | `/movie/:movieId` | Detailed movie information |
 | `/profile` | Profile and favorite movies for the authenticated user |
 
-Search and authentication forms open in modal windows from the application header. Sign-in is required to view the profile and manage favorites.
+The movie catalog is available from the Search link in the application header. Registration and sign-in forms open in a modal. Sign-in is required to view the profile and manage favorites.
 
 ## Backend API
 
@@ -134,6 +135,7 @@ All client requests use the address from `VITE_API_URL`. The token from `localSt
 | `GET` | `/movie/top10` | Get the movie collection; the client displays Top 10 |
 | `GET` | `/movie/genres` | Get the genre list |
 | `GET` | `/movie/:id` | Get a movie by ID |
+| `GET` | `/movie` | Get the full movie catalog |
 | `GET` | `/movie?genre=<name>` | Get movies from a selected genre |
 | `GET` | `/movie?title=<name>` | Search movies by title |
 
@@ -226,4 +228,3 @@ https://movielib.bishkek-2020.workers.dev
 ## License
 
 MIT - the project can be used and modified.
-
