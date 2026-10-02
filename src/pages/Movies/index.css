@@ -27,6 +27,10 @@
   font: inherit;
 }
 
+.movies__search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
 .movies__search-icon {
   position: absolute;
   top: 50%;
@@ -34,6 +38,33 @@
   transform: translateY(-50%);
   color: rgba(255, 255, 255, 0.68);
   pointer-events: none;
+}
+
+.movies__search-clear {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  display: flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.68);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.movies__search-clear:hover {
+  color: #c8ff76;
+}
+
+.movies__search-clear:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid #c8ff76;
+  outline-offset: -2px;
 }
 
 .movies__search-input:focus {

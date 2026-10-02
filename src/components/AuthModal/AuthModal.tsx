@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { loginUser, registerUser } from "../../api/authApi";
 import { useAppDispatch } from "../../hooks/redux";
 import { setUser } from "../../store/userSlice";
@@ -22,6 +22,8 @@ export function AuthModal({
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
 
+  const [isRendered, setIsRendered] = useState(isOpen);
+  const [isClosing, setIsClosing] = useState(false);
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +38,16 @@ export function AuthModal({
   const normalizedName = name.trim();
   const normalizedSurname = surname.trim();
 
-  if (!isOpen) {
+  useEffect(() => {
+    if (isOpen) {
+      setIsRendered(true);
+      setIsClosing(false);
+    } else if (isRendered) {
+      setIsClosing(true);
+    }
+  }, [isOpen, isRendered]);
+
+  if (!isRendered) {
     return null;
   }
 
@@ -158,8 +169,24 @@ export function AuthModal({
     mode === "register" && hasSubmitted && !surname.trim();
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="auth-modal" onClick={(event) => event.stopPropagation()}>
+    <div
+      className={`modal-overlay ${isClosing ? "modal-overlay--closing" : ""}`}
+      aria-hidden={isClosing}
+      onClick={isClosing ? undefined : onClose}
+      onAnimationEnd={(event) => {
+        if (
+          isClosing &&
+          event.target === event.currentTarget &&
+          event.animationName === "overlay-exit"
+        ) {
+          setIsRendered(false);
+        }
+      }}
+    >
+      <div
+        className={`auth-modal ${isClosing ? "auth-modal--closing" : ""}`}
+        onClick={(event) => event.stopPropagation()}
+      >
         <button
           type="button"
           className="auth-modal__close btn-close"

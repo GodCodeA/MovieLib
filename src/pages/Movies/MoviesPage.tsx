@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { getMovies } from "../../api/moviesApi";
 import Loader from "../../components/Loader/loader";
 import { Movie } from "../../types/movie";
@@ -76,11 +76,25 @@ export function MoviesPage(): JSX.Element {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
-            <Search
-              className="movies__search-icon"
-              size={18}
-              aria-hidden="true"
-            />
+            {query ? (
+              <button
+                type="button"
+                className="movies__search-clear"
+                aria-label="Clear search"
+                onClick={() => {
+                  setQuery("");
+                  searchInputRef.current?.focus();
+                }}
+              >
+                <X size={18} aria-hidden="true" />
+              </button>
+            ) : (
+              <Search
+                className="movies__search-icon"
+                size={18}
+                aria-hidden="true"
+              />
+            )}
           </div>
         </div>
 

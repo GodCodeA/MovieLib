@@ -27,6 +27,10 @@ const movieListView = movies.map((movie) => ({
   genres: movie.genres,
 }));
 
+const moviesSortedByRating = [...movieListView].sort(
+  (firstMovie, secondMovie) => secondMovie.imdbRating - firstMovie.imdbRating,
+);
+
 const favoriteMoviesByUser = new Map();
 
 const app = express();
@@ -92,7 +96,7 @@ app.get("/movie/random", (req, res) => {
 app.get("/movie/top10", (req, res) => {
   const limit = Number(req.query.limit) || 10;
   res.set("Cache-Control", "public, max-age=300, s-maxage=600");
-  res.json(movieListView.slice(0, limit));
+  res.json(moviesSortedByRating.slice(0, limit));
 });
 
 app.get("/movie/genres", (req, res) => {
