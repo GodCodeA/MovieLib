@@ -24,7 +24,7 @@ export function AuthModal({
 
   const [isRendered, setIsRendered] = useState(isOpen);
   const [isClosing, setIsClosing] = useState(false);
-  const [mode, setMode] = useState<AuthMode>("login");
+  const [mode, setMode] = useState<AuthMode>("register");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -40,6 +40,16 @@ export function AuthModal({
 
   useEffect(() => {
     if (isOpen) {
+      if (!isRendered) {
+        setMode("register");
+        setEmail("");
+        setPassword("");
+        setName("");
+        setSurname("");
+        setErrorMessage("");
+        setSuccessMessage("");
+        setHasSubmitted(false);
+      }
       setIsRendered(true);
       setIsClosing(false);
     } else if (isRendered) {
@@ -77,23 +87,13 @@ export function AuthModal({
     event.preventDefault();
     setHasSubmitted(true);
 
-    if (!email || !password || (mode === "register" && (!name || !surname))) {
+    if (
+      !normalizedEmail ||
+      !password ||
+      (mode === "register" && (!normalizedName || !normalizedSurname))
+    ) {
       setErrorMessage("All fields are required");
       return;
-    }
-
-    const nameRegex = /^[A-Za-zA-Яа-яЁё]+$/;
-
-    if (mode === "register") {
-      if (!nameRegex.test(normalizedName)) {
-        setErrorMessage("Name must contain only letters");
-        return;
-      }
-
-      if (!nameRegex.test(normalizedSurname)) {
-        setErrorMessage("Surname must contain only letters");
-        return;
-      }
     }
 
     try {
@@ -125,7 +125,7 @@ export function AuthModal({
 
         onClose();
         resetForm();
-        setMode("login");
+        setMode("register");
         return;
       }
 
@@ -210,6 +210,8 @@ export function AuthModal({
               <input
                 type="text"
                 placeholder="First name"
+                autoComplete="given-name"
+                required
                 className={`auth-modal__input ${hasNameError ? "auth-modal__input_error" : ""}`}
                 value={name}
                 onChange={(event) => {
@@ -220,6 +222,8 @@ export function AuthModal({
               <input
                 type="text"
                 placeholder="Last name"
+                autoComplete="family-name"
+                required
                 className={`auth-modal__input ${hasSurnameError ? "auth-modal__input_error" : ""}`}
                 value={surname}
                 onChange={(event) => {
@@ -232,6 +236,8 @@ export function AuthModal({
           <input
             type="email"
             placeholder="Email"
+            autoComplete="email"
+            required
             className={`auth-modal__input ${hasEmailError ? "auth-modal__input_error" : ""}`}
             value={email}
             onChange={(event) => {
@@ -243,6 +249,11 @@ export function AuthModal({
           <input
             type="password"
             placeholder="Password"
+            autoComplete={
+              mode === "register" ? "new-password" : "current-password"
+            }
+            minLength={mode === "register" ? 8 : undefined}
+            required
             className={`auth-modal__input ${hasPasswordError ? "auth-modal__input_error" : ""}`}
             value={password}
             onChange={(event) => {

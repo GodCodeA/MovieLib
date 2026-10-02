@@ -138,13 +138,24 @@ app.get("/favorites", authMiddleware, (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { email, password, name, surname } = req.body;
+  const { email, password, name, surname } = req.body ?? {};
+  const normalizedEmail =
+    typeof email === "string" ? email.trim().toLowerCase() : "";
+  const normalizedName = typeof name === "string" ? name.trim() : "";
+  const normalizedSurname = typeof surname === "string" ? surname.trim() : "";
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail);
 
-  if (!email || !password || !name || !surname) {
+  if (
+    !isValidEmail ||
+    typeof password !== "string" ||
+    password.length < 8 ||
+    !normalizedName ||
+    !normalizedSurname
+  ) {
     return res.status(400).json({ message: "All fields required" });
   }
 
-  const existingUser = users.find((user) => user.email === email);
+  const existingUser = users.find((user) => user.email === normalizedEmail);
 
   if (existingUser) {
     return res.status(409).json({ message: "User already exists" });
@@ -154,10 +165,10 @@ app.post("/register", async (req, res) => {
 
   const newUser = {
     id: Date.now(),
-    email,
+    email: normalizedEmail,
     password: passwordHash,
-    name,
-    surname,
+    name: normalizedName,
+    surname: normalizedSurname,
   };
 
   users.push(newUser);
@@ -252,38 +263,3 @@ app.get("/me", authMiddleware, (req, res) => {
 app.listen(PORT, () => {
   console.log(`Backend started on ${PORT}`);
 });
-
-// {
-//   id: ,
-//   title: "",
-//   posterUrl: `${PUBLIC_URL}/images/`, "auto=enhance,compress,format&h=720&w=480&q=100"
-//   backdropUrl: `${PUBLIC_URL}/images/`, "auto=enhance,compress,format&h=1080&w=1920&q=80"
-//   releaseYear: ,
-//   imdbRating: ,
-//   quantityImdbRating: ,
-//   genres: ["", ""],
-//   plot: "",
-//   youtubeId: "",
-//   director: [""],
-//   writer: [""],
-//   producer: [""],
-//   composer: [""],
-//   runtime: ,
-//   budget: ,
-//   worldEarning: ,
-//   ratingMPPA: "R",
-//   ageWatch: "18+",
-//   country: ["", ""],
-//   movieStars: [
-//     "",
-//     "",
-//     "",
-//     "",
-//     "",
-//     "",
-//     "",
-//     "",
-//     "",
-//     "",
-//   ],
-// },
