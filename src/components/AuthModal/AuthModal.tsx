@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, PointerEvent, useEffect, useState } from "react";
 import { loginUser, registerUser } from "../../api/authApi";
 import { useAppDispatch } from "../../hooks/redux";
 import { setUser } from "../../store/userSlice";
@@ -6,6 +6,7 @@ import { getFavoriteMovies } from "../../api/moviesApi";
 import { setFavoriteMovies } from "../../store/favoritesSlice";
 import { useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
+import { MonkeyMascot } from "../MonkeyMascot/MonkeyMascot";
 import "./index.css";
 
 interface AuthModalProps {
@@ -79,6 +80,26 @@ export function AuthModal({
   function switchToRegister(): void {
     setMode("register");
     resetForm();
+  }
+
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>): void {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const lookX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 5;
+    const lookY = ((event.clientY - bounds.top) / bounds.height - 0.28) * 4;
+
+    event.currentTarget.style.setProperty(
+      "--look-x",
+      `${Math.max(-2, Math.min(2, lookX))}px`,
+    );
+    event.currentTarget.style.setProperty(
+      "--look-y",
+      `${Math.max(-2, Math.min(2, lookY))}px`,
+    );
+  }
+
+  function handlePointerLeave(event: PointerEvent<HTMLDivElement>): void {
+    event.currentTarget.style.setProperty("--look-x", "0px");
+    event.currentTarget.style.setProperty("--look-y", "0px");
   }
 
   async function handleSubmit(
@@ -186,6 +207,8 @@ export function AuthModal({
       <div
         className={`auth-modal ${isClosing ? "auth-modal--closing" : ""}`}
         onClick={(event) => event.stopPropagation()}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
       >
         <button
           type="button"
@@ -196,9 +219,15 @@ export function AuthModal({
           <X />
         </button>
 
-        <h2 className="auth-modal__title">
-          {mode === "login" ? "Login" : "Register"}
-        </h2>
+        <div className="auth-modal__heading">
+          <MonkeyMascot
+            className="auth-modal__mascot"
+            ariaLabel="MovieLib monkey lying sideways, holding popcorn and watching the pointer"
+          />
+          <h2 className="auth-modal__title">
+            {mode === "login" ? "Login" : "Register"}
+          </h2>
+        </div>
 
         <form className="auth-modal__form" onSubmit={handleSubmit}>
           {successMessage && (

@@ -8,6 +8,7 @@ import {
 import { useAppSelector } from "../hooks/redux";
 import { useEffect, useState } from "react";
 import { AuthModal } from "../components/AuthModal/AuthModal";
+import { MonkeyMascot } from "../components/MonkeyMascot/MonkeyMascot";
 
 export function MainLayout(): JSX.Element {
   const { user, isAuthorized } = useAppSelector((state) => state.user);
@@ -34,14 +35,17 @@ export function MainLayout(): JSX.Element {
     <div className="app">
       <header className="header">
         <div className="container header__content">
-          <Link to="/" className="logo">
-            <img
-              className="logo__background"
-              src="/logoBg.svg"
-              alt="MovieLib background"
-            />
-            <span className="logo__text">MovieLib</span>
-          </Link>
+          <div className="header__brand">
+            <Link to="/" className="logo">
+              <img
+                className="logo__background"
+                src="/logoBg.svg"
+                alt="MovieLib background"
+              />
+              <span className="logo__text">MovieLib</span>
+            </Link>
+            <MonkeyMascot />
+          </div>
 
           <nav className="navigation">
             <NavLink to="/genres" className="navigation__link">
@@ -76,14 +80,17 @@ export function MainLayout(): JSX.Element {
 
       <footer className="footer">
         <div className="container footer__content">
-          <Link to="/" className="logo">
-            <img
-              className="logo__background"
-              src="/logoBg.svg"
-              alt="MovieLib background"
-            />
-            <span className="logo__text">MovieLib</span>
-          </Link>
+          <div className="footer__brand">
+            <Link to="/" className="logo">
+              <img
+                className="logo__background"
+                src="/logoBg.svg"
+                alt="MovieLib background"
+              />
+              <span className="logo__text">MovieLib</span>
+            </Link>
+            <MonkeyMascot />
+          </div>
         </div>
       </footer>
       <AuthModal isOpen={isAuthModalOpen} onClose={closeAuthModal} />

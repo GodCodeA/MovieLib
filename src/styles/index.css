@@ -100,6 +100,224 @@ button {
   gap: 24px;
 }
 
+.header__brand,
+.footer__brand {
+  position: relative;
+}
+
+.header__mascot {
+  position: absolute;
+  z-index: 1;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+  width: 42px;
+  height: 46px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.monkey-mascot__figure {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: monkey-sway 3.2s ease-in-out infinite;
+}
+
+.monkey-mascot__head,
+.monkey-mascot__ear {
+  fill: url("#monkey-fur");
+}
+
+.monkey-mascot__inner-ear,
+.monkey-mascot__face {
+  fill: url("#monkey-face");
+}
+
+.monkey-mascot__torso {
+  fill: url("#monkey-fur");
+}
+
+.monkey-mascot__leg {
+  fill: #754126;
+  stroke: #a96b42;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1px;
+  transform-box: fill-box;
+  transform-origin: center top;
+  animation: monkey-leg-swing 3.8s ease-in-out infinite;
+}
+
+.monkey-mascot__leg--right {
+  animation-delay: -1.9s;
+}
+
+.monkey-mascot__leg .monkey-mascot__foot {
+  fill: #482719;
+  stroke: none;
+}
+
+.monkey-mascot__arm {
+  fill: none;
+  stroke: #754126;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 8px;
+}
+
+.monkey-mascot__arm {
+  stroke: url("#monkey-fur");
+  stroke-width: 7px;
+}
+
+.monkey-mascot__hand {
+  fill: url("#monkey-fur");
+  stroke: #a96b42;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5px;
+}
+
+.monkey-mascot__hands {
+  fill: url("#monkey-fur");
+}
+
+.monkey-mascot__hands path {
+  stroke-width: 1.2px;
+}
+
+.monkey-mascot__glasses-frame {
+  fill: none;
+  stroke: #241711;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2px;
+}
+
+.monkey-mascot__lens--red {
+  fill: #f0443e;
+  opacity: 0.82;
+}
+
+.monkey-mascot__lens--blue {
+  fill: #36c7e8;
+  opacity: 0.82;
+}
+
+.monkey-mascot__lens-glint {
+  fill: none;
+  stroke: #fff3cb;
+  stroke-linecap: round;
+  stroke-width: 1px;
+  opacity: 0.85;
+}
+
+.monkey-mascot__popcorn-cup {
+  fill: #fff0cf;
+  stroke: #6d3d27;
+  stroke-linejoin: round;
+  stroke-width: 1.4px;
+}
+
+.monkey-mascot__popcorn-stripe {
+  fill: #e8443d;
+}
+
+.monkey-mascot__popcorn-top,
+.monkey-mascot__popcorn circle {
+  fill: #fff8df;
+  stroke: #d6a951;
+  stroke-width: 0.8px;
+}
+
+.monkey-mascot__popcorn-top {
+  stroke: #b98239;
+}
+
+.monkey-mascot__eyes {
+  fill: #241711;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: monkey-blink 5.2s ease-in-out infinite;
+}
+
+.monkey-mascot__brows {
+  fill: none;
+  stroke: #482719;
+  stroke-linecap: round;
+  stroke-width: 2.5px;
+}
+
+.monkey-mascot__muzzle {
+  fill: url("#monkey-face");
+}
+
+.monkey-mascot__nose {
+  fill: #42291e;
+}
+
+.monkey-mascot__smile {
+  fill: none;
+  stroke: #42291e;
+  stroke-linecap: round;
+  stroke-width: 1.7px;
+}
+
+.monkey-mascot__tuft {
+  fill: #754126;
+}
+
+.monkey-mascot__tail {
+  fill: none;
+  stroke: #754126;
+  stroke-linecap: round;
+  stroke-width: 4px;
+}
+
+.monkey-mascot__fur-detail {
+  fill: none;
+  stroke: #d0945d;
+  stroke-linecap: round;
+  stroke-width: 1.5px;
+  opacity: 0.65;
+}
+
+@keyframes monkey-sway {
+  0%,
+  100% {
+    transform: rotate(-1.5deg);
+  }
+
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+
+@keyframes monkey-leg-swing {
+  0%,
+  100% {
+    transform: rotate(-9deg);
+  }
+
+  50% {
+    transform: rotate(9deg);
+  }
+}
+
+@keyframes monkey-blink {
+  0%,
+  44%,
+  48%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  46% {
+    transform: scaleY(0.12);
+  }
+}
+
 .auth-button_link {
   display: inline-flex;
   align-items: center;
@@ -186,6 +404,13 @@ button {
     order: 2;
   }
 
+  .header__mascot {
+    top: -11px;
+    left: 50%;
+    width: 40px;
+    height: 44px;
+  }
+
   .navigation {
     order: 3;
   }
@@ -233,11 +458,6 @@ button {
     line-height: 1.2;
   }
 
-  h2 {
-    font-size: 1.25rem;
-    line-height: 1.2;
-  }
-
   p {
     font-size: 0.8rem;
     line-height: 1.5;
@@ -249,5 +469,20 @@ button {
 
   .logo__text {
     font-size: 20px;
+  }
+
+  .header__mascot {
+    top: -9px;
+    left: 50%;
+    width: 36px;
+    height: 39px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .monkey-mascot__figure,
+  .monkey-mascot__leg,
+  .monkey-mascot__eyes {
+    animation: none;
   }
 }
