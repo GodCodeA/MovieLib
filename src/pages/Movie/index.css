@@ -114,7 +114,7 @@
 
   .movie__poster-wrapper {
     display: flex;
-    max-width: 600px;
+    max-width: 320px;
     justify-self: center;
   }
 
