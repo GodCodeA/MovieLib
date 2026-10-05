@@ -3,6 +3,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const genreImageMap: Record<string, string> = {
   action: `${API_URL}/genres/action_compressed.avif`,
   adventure: `${API_URL}/genres/adventure_compressed.avif`,
+  animation: `${API_URL}/genres/animation_compressed.avif`,
   biography: `${API_URL}/genres/biography_compressed.avif`,
   comedy: `${API_URL}/genres/comedy_compressed.avif`,
   crime: `${API_URL}/genres/crime_compressed.avif`,
@@ -11,6 +12,7 @@ const genreImageMap: Record<string, string> = {
   fantasy: `${API_URL}/genres/fantasy_compressed.avif`,
   history: `${API_URL}/genres/history_compressed.avif`,
   horror: `${API_URL}/genres/horror_compressed.avif`,
+  music: `${API_URL}/genres/music_compressed.avif`,
   mystery: `${API_URL}/genres/mystery_compressed.avif`,
   romance: `${API_URL}/genres/romance_compressed.avif`,
   "sci-fi": `${API_URL}/genres/sci-fi_compressed.avif`,
@@ -21,6 +23,7 @@ const genreImageMap: Record<string, string> = {
 
 export function getGenreImage(genreName: string): string {
   return (
-    genreImageMap[genreName.toLowerCase()] ?? `${API_URL}/genres/backdrop_compressed.avif`
+    genreImageMap[genreName.toLowerCase()] ??
+    `${API_URL}/genres/backdrop_compressed.avif`
   );
 }
