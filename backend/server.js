@@ -1,3 +1,4 @@
+import { initDatabase, pool } from "./database.js";
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
@@ -31,8 +32,6 @@ const moviesSortedByRating = [...movieListView].sort(
   (firstMovie, secondMovie) => secondMovie.imdbRating - firstMovie.imdbRating,
 );
 
-const favoriteMoviesByUser = new Map();
-
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -56,8 +55,6 @@ app.use(express.json());
 app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
-
-const users = [];
 
 function createToken(user) {
   return jwt.sign(
@@ -132,9 +129,21 @@ app.get("/movie", (req, res) => {
   res.json(result);
 });
 
-app.get("/favorites", authMiddleware, (req, res) => {
-  const userFavorites = favoriteMoviesByUser.get(req.user.id) || [];
-  res.json(userFavorites);
+app.get("/favorites", authMiddleware, async (req, res) => {
+  const { rows } = await pool.query(
+    `SELECT movie_id
+    FROM favorite_movies
+    WHERE user_id = $1
+    ORDER BY created_at DESC`,
+    [req.user.id],
+  );
+
+  const moviesById = new Map(movies.map((movie) => [movie.id, movie]));
+  const favoriteMovies = rows
+    .map(({ movie_id }) => moviesById.get(movie_id))
+    .filter((movie) => movie !== undefined);
+
+  res.json(favoriteMovies);
 });
 
 app.post("/register", async (req, res) => {
@@ -155,23 +164,21 @@ app.post("/register", async (req, res) => {
     return res.status(400).json({ message: "All fields required" });
   }
 
-  const existingUser = users.find((user) => user.email === normalizedEmail);
-
-  if (existingUser) {
-    return res.status(409).json({ message: "User already exists" });
-  }
-
   const passwordHash = await bcrypt.hash(password, 10);
 
-  const newUser = {
-    id: Date.now(),
-    email: normalizedEmail,
-    password: passwordHash,
-    name: normalizedName,
-    surname: normalizedSurname,
-  };
+  try {
+    await pool.query(
+      `INSERT INTO users (email, password_hash, name, surname)
+       VALUES ($1, $2, $3, $4)`,
+      [normalizedEmail, passwordHash, normalizedName, normalizedSurname],
+    );
+  } catch (error) {
+    if (error.code === "23505") {
+      return res.status(409).json({ message: "User already exists" });
+    }
 
-  users.push(newUser);
+    throw error;
+  }
 
   res.status(201).json({
     message: "User registered successfully",
@@ -179,21 +186,29 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body ?? {};
+  const normalizedEmail =
+    typeof email === "string" ? email.trim().toLowerCase() : "";
 
-  if (!email || !password) {
+  if (!normalizedEmail || typeof password !== "string" || !password) {
     return res.status(400).json({
       message: "Email and password are required",
     });
   }
 
-  const user = users.find((item) => item.email === email);
+  const { rows } = await pool.query(
+    `SELECT id, email, password_hash, name, surname
+     FROM users
+     WHERE email = $1`,
+    [normalizedEmail],
+  );
+  const user = rows[0];
 
   if (!user) {
     return res.status(400).json({ message: "User not found" });
   }
 
-  const isValidPassword = await bcrypt.compare(password, user.password);
+  const isValidPassword = await bcrypt.compare(password, user.password_hash);
 
   if (!isValidPassword) {
     return res.status(400).json({ message: "Invalid password" });
@@ -212,54 +227,75 @@ app.post("/login", async (req, res) => {
   });
 });
 
-app.post("/favorites", authMiddleware, (req, res) => {
-  const { id } = req.body;
-  const userId = req.user.id;
+app.post("/favorites", authMiddleware, async (req, res) => {
+  const movieId = Number(req.body?.id);
 
-  const currentFavorites = favoriteMoviesByUser.get(userId) || [];
-  const movieExists = currentFavorites.some((movie) => movie.id === Number(id));
-
-  if (!movieExists) {
-    const movie = movies.find((item) => item.id === Number(id));
-
-    if (!movie) {
-      return res.status(404).json({ message: "Movie not found" });
-    }
-
-    currentFavorites.push(movie);
-    favoriteMoviesByUser.set(userId, currentFavorites);
+  if (!Number.isSafeInteger(movieId)) {
+    return res.status(400).json({ message: "Valid movie id is required" });
   }
+
+  const movie = movies.find((item) => item.id === movieId);
+
+  if (!movie) {
+    return res.status(404).json({ message: "Movie not found" });
+  }
+
+  await pool.query(
+    `INSERT INTO favorite_movies (user_id, movie_id)
+    VALUES ($1, $2)
+    ON CONFLICT (user_id, movie_id) DO NOTHING`,
+    [req.user.id, movieId],
+  );
 
   res.status(201).json({ message: "Added to favorites" });
 });
 
-app.delete("/favorites/:id", authMiddleware, (req, res) => {
-  const userId = req.user.id;
+app.delete("/favorites/:id", authMiddleware, async (req, res) => {
   const movieId = Number(req.params.id);
 
-  const currentFavorites = favoriteMoviesByUser.get(userId) || [];
-  const filtered = currentFavorites.filter((movie) => movie.id !== movieId);
+  if (!Number.isSafeInteger(movieId)) {
+    return res.status(400).json({ message: "Valid movie id is required" });
+  }
 
-  favoriteMoviesByUser.set(userId, filtered);
-
+  await pool.query(
+    `DELETE FROM favorite_movies
+    WHERE user_id = $1 AND movie_id = $2`,
+    [req.user.id, movieId],
+  );
+  
   res.json({ message: "Remove from favorites" });
 });
 
-app.get("/me", authMiddleware, (req, res) => {
-  const user = users.find((item) => item.id === req.user.id);
+app.get("/me", authMiddleware, async (req, res) => {
+  const { rows } = await pool.query(
+    `SELECT id, email, name, surname
+     FROM users
+     WHERE id = $1`,
+    [req.user.id],
+  );
+  const user = rows[0];
 
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
 
-  res.json({
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    surname: user.surname,
-  });
+  res.json(user);
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend started on ${PORT}`);
+app.use((error, req, res, next) => {
+  console.error("Request failed:", error);
+  res.status(500).json({ message: "Internal server error" });
+});
+
+async function startServer() {
+  await initDatabase();
+
+  app.listen(PORT, () => {
+    console.log(`Backend started on ${PORT}`);
+  });
+}
+
+startServer().catch((error) => {
+  console.error("Failed to start backend:", error);
+  process.exitCode = 1;
 });

@@ -35,6 +35,7 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 - Express 5;
 - CORS and dotenv;
 - JWT (`jsonwebtoken`);
+- PostgreSQL (`pg`, hosted on Neon);
 - Password hashing with `bcryptjs`.
 
 ## Getting Started
@@ -59,10 +60,12 @@ Backend settings are stored in `backend/.env`:
 PORT=3001
 JWT_SECRET=replace_with_a_secure_secret
 PUBLIC_URL=http://localhost:3001
+DATABASE_URL=postgresql://user:password@host/database?sslmode=require
 ```
 
 `JWT_SECRET` must be a unique secret and must not be committed to the repository.
 `PUBLIC_URL` is the public address used in movie image URLs. Use the local address during development and the deployed backend URL in production.
+`DATABASE_URL` is the Neon PostgreSQL connection string. Keep it secret and never expose it in frontend variables or commit it. The backend creates the users and favorites tables on startup.
 
 Movie images are stored in `backend/public/images` and are served from the `/images` path. For example:
 
@@ -181,8 +184,9 @@ All client requests use the address from `VITE_API_URL`. The token from `localSt
 
 ## Important Limitations
 
-- Movie, user, and favorite data are stored in the backend process memory.
-- Registered users and favorites are reset when the backend restarts.
+- User accounts and favorites are stored in Neon PostgreSQL and require `DATABASE_URL` to be configured for the backend.
+- The movie catalog is bundled with the backend in `backend/data/movies.js`.
+- Accounts previously created while the backend used in-memory storage are not migrated to PostgreSQL; users need to register again.
 - JWTs expire after one hour.
 - For production, set a secure `JWT_SECRET` and a separate `VITE_API_URL`.
 
@@ -201,6 +205,7 @@ In Deplexo, add these backend environment variables:
 ```text
 JWT_SECRET=<secure secret>
 PUBLIC_URL=https://movielib.de.deplexo.com
+DATABASE_URL=<Neon PostgreSQL connection string>
 ```
 
 The `backend/public/images` directory must be included in the deployed repository. Deplexo serves these files at `/images/...` without changing their format or contents.

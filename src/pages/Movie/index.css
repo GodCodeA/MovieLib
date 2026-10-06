@@ -104,6 +104,34 @@
   align-items: center;
 }
 
+.movie__similar {
+  margin-block-start: 40px;
+}
+
+.movie__similar-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.movie__similar-poster {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.movie__similar-title {
+  margin: 10px 0 4px;
+  font-size: 1rem;
+}
+
+.movie__similar-meta {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.65);
+}
+
 @media (max-width: 1024px) {
   .movie__wrapper {
     grid-template-columns: 1fr;

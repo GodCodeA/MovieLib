@@ -16,6 +16,7 @@
     "react-dom": "^19.3.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^6.30.3",
+    "react-select": "^5.10.2",
     "reat": "^0.0.1-security",
     "swiper": "^12.2.0"
   },

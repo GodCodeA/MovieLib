@@ -1,9 +1,14 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import {
   addMovieToFavorites,
   getMovieById,
   removeMovieFromFavorites,
+  getMoviesByGenre,
 } from "../../api/moviesApi";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import {
@@ -22,6 +27,9 @@ export function MoviePage(): JSX.Element {
   const navigate = useNavigate();
 
   const [movie, setMovie] = useState<Movie | null>(null);
+  const [similarMovies, setSimilarMovies] = useState<Movie[]>([]);
+  const [isSimilarLoading, setIsSimilarLoading] = useState(false);
+  const [similarError, setSimilarError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [isFavoriteLoading, setIsFavoriteLoading] = useState(false);
@@ -30,22 +38,105 @@ export function MoviePage(): JSX.Element {
   const favoriteMovies = useAppSelector((state) => state.favorites.movies);
 
   useEffect(() => {
-    loadMovie();
+    let cancelled = false;
+
+    async function loadMovie(): Promise<void> {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
+        setMovie(null);
+
+        const movieData = await getMovieById(movieId);
+
+        if (!cancelled) {
+          setMovie(movieData);
+        }
+      } catch {
+        if (!cancelled) {
+          setErrorMessage("Failed to load movie");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void loadMovie();
+
+    return () => {
+      cancelled = true;
+    };
   }, [movieId]);
 
-  async function loadMovie(): Promise<void> {
-    try {
-      setIsLoading(true);
-      setErrorMessage("");
-
-      const movieData = await getMovieById(movieId);
-      setMovie(movieData);
-    } catch (error) {
-      setErrorMessage("Failed to load movie");
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    if (!movie || movie.genres.length === 0) {
+      setSimilarMovies([]);
+      setSimilarError("");
+      setIsSimilarLoading(false);
+      return;
     }
-  }
+
+    const currentMovie = movie;
+
+    let cancelled = false;
+
+    async function loadSimilarMovies(): Promise<void> {
+      try {
+        setIsSimilarLoading(true);
+        setSimilarError("");
+
+        const movieLists = await Promise.all(
+          currentMovie.genres.map((genre) => getMoviesByGenre(genre)),
+        );
+
+        if (cancelled) {
+          return;
+        }
+
+        const uniqueMovies = new Map<number, Movie>();
+
+        movieLists.flat().forEach((candidate) => {
+          if (candidate.id !== currentMovie.id) {
+            uniqueMovies.set(candidate.id, candidate);
+          }
+        });
+
+        const countMatches = (first: string[], second: string[]) =>
+          first.filter((item) => second.includes(item)).length;
+
+        const getSimilarityScore = (candidate: Movie) =>
+          countMatches(currentMovie.genres, candidate.genres) * 3 +
+          countMatches(currentMovie.movieStars, candidate.movieStars) * 2 +
+          countMatches(currentMovie.director, candidate.director) * 2;
+
+        const sortedMovies = [...uniqueMovies.values()].sort(
+          (first, second) => {
+            const scoreDifference =
+              getSimilarityScore(second) - getSimilarityScore(first);
+
+            return scoreDifference || second.imdbRating - first.imdbRating;
+          },
+        );
+
+        setSimilarMovies(sortedMovies.slice(0, 8));
+      } catch {
+        if (!cancelled) {
+          setSimilarError("Failed to load similar movies");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsSimilarLoading(false);
+        }
+      }
+    }
+
+    void loadSimilarMovies();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [movie]);
 
   async function toggleFavoriteMovie(): Promise<void> {
     if (!movie) {
@@ -249,6 +340,57 @@ export function MoviePage(): JSX.Element {
             </div>
           </div>
         )}
+        <section className="movie__similar">
+          <h2 className="movie__story-title">Similar movies</h2>
+
+          {isSimilarLoading && <p>Loading similar movies...</p>}
+          {similarError && <p className="movie__error">{similarError}</p>}
+
+          {!isSimilarLoading && !similarError && similarMovies.length === 0 && (
+            <p>Similar movies not found.</p>
+          )}
+
+          {!isSimilarLoading && !similarError && similarMovies.length > 0 && (
+            <Swiper
+              className="movie__similar-swiper"
+              modules={[Navigation, Mousewheel]}
+              loop={true}
+              navigation
+              mousewheel={{ forceToAxis: true }}
+              watchOverflow
+              slidesPerView={2}
+              slidesPerGroup={1}
+              spaceBetween={12}
+              breakpoints={{
+                640: { slidesPerView: 3, spaceBetween: 16 },
+                1024: { slidesPerView: 5, spaceBetween: 20 },
+              }}
+            >
+              {similarMovies.map((similarMovie) => (
+                <SwiperSlide key={similarMovie.id}>
+                  <Link
+                    to={`/movie/${similarMovie.id}`}
+                    className="movie__similar-card"
+                  >
+                    <img
+                      src={similarMovie.posterUrl}
+                      alt={similarMovie.title}
+                      className="movie__similar-poster"
+                      loading="lazy"
+                    />
+                    <h3 className="movie__similar-title">
+                      {similarMovie.title}
+                    </h3>
+                    <p className="movie__similar-meta">
+                      {similarMovie.releaseYear} · IMDb{" "}
+                      {similarMovie.imdbRating}
+                    </p>
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
+        </section>
       </div>
     </section>
   );

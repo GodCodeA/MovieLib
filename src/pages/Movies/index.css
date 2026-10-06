@@ -6,13 +6,22 @@
   margin: 0 0 16px;
 }
 
-.movies__search {
-  max-width: 640px;
+.movies__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 1000px;
   margin-bottom: 25px;
 }
 
 .movies__search-field {
   position: relative;
+  flex: 1 1 280px;
+}
+
+.movies__filter-select {
+  flex: 1 1 180px;
+  min-width: 150px;
 }
 
 .movies__search-input {
@@ -150,9 +159,18 @@
     padding: 30px 0;
   }
 
+  .movies__filters {
+    flex-direction: column;
+  }
+
+  .movies__search-field,
+  .movies__filter-select {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
   .movies__grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 12px;
   }
-
 }
