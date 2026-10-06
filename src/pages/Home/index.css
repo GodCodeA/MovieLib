@@ -148,6 +148,21 @@
   grid-template-columns: 1fr;
   gap: 14px;
   height: 100%;
+  border-radius: 6px;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.home__top-card:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.home__top-card:focus-visible {
+  border-radius: 6px;
+  outline: 2px solid #c8ff76;
+  outline-offset: 4px;
 }
 
 .home__top-card-rank {
