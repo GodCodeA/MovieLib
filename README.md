@@ -8,9 +8,9 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 
 - Random movie recommendation on the home page;
 - Top 10 movie collection;
-- Full movie catalog with instant search by title;
+- Full movie catalog with search by title, genre and year filters, and sorting by IMDb rating or release year;
 - Genre list and movies from a selected genre;
-- Detailed movie page with rating, plot, cast and crew, budget, earnings, and a Youtube trailer;
+- Detailed movie page with rating, plot, cast and crew, budget, earnings, a YouTube trailer, and similar movie recommendations;
 - Registration and email/password login;
 - JWT authentication and automatic session restoration;
 - Adding and removing movies from favorites;
@@ -25,6 +25,7 @@ MovieLib is an application for discovering movies and choosing a film for the ev
 - TypeScript;
 - Vite;
 - React Router;
+- React Select;
 - Redux Toolkit and React Redux;
 - Axios;
 - Swiper.
@@ -117,7 +118,7 @@ From `backend/`:
 | Route | Description |
 | --- | --- |
 | `/` | Home page with a random movie and Top 10 |
-| `/movies` | Full movie catalog with search by title |
+| `/movies` | Full movie catalog with title search, genre and year filters, and sorting |
 | `/genres` | Genre list |
 | `/genres/:genreName` | Movies from the selected genre |
 | `/movie/:movieId` | Detailed movie information |
@@ -164,9 +165,10 @@ All client requests use the address from `VITE_API_URL`. The token from `localSt
 .
 ├── backend/
 │   ├── server.js       # Express API, authentication, and movie data
+│   ├── database.js     # PostgreSQL pool and users/favorites table initialization
 │   ├── package.json
 │   ├── public/images/   # movie poster and backdrop files
-│   └── .env
+│   └── data/movies.js  # movie catalog
 ├── public/             # static files
 ├── src/
 │   ├── api/            # Axios client and API methods
