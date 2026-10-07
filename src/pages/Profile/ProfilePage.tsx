@@ -104,7 +104,7 @@ export function ProfilePage(): JSX.Element {
                     <div className="profile__movie-content">
                       <h3 className="profile__movie-title">{movie.title}</h3>
                       <p className="profile__movie-rating">
-                        Rating: {movie.imdbRating}
+                        IMDb: {movie.imdbRating}
                       </p>
                       <p className="profile__movie-text">
                         <strong>Release year:</strong> {movie.releaseYear}

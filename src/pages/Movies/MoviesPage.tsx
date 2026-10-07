@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { ListFilter, X } from "lucide-react";
 import Select, { type StylesConfig } from "react-select";
 import { getMovies } from "../../api/moviesApi";
 import Loader from "../../components/Loader/loader";
 import { Movie } from "../../types/movie";
 import "./index.css";
 
-type SortOption = "rating" | "newest" | "oldest";
+type SortOption = "popular" | "rating" | "newest" | "oldest";
 
 interface SelectOption<T extends string = string> {
   value: T;
@@ -15,6 +15,7 @@ interface SelectOption<T extends string = string> {
 }
 
 const sortOptions: SelectOption<SortOption>[] = [
+  { value: "popular", label: "Most popular" },
   { value: "rating", label: "Highest IMDb rating" },
   { value: "newest", label: "Newest first" },
   { value: "oldest", label: "Oldest first" },
@@ -29,9 +30,7 @@ function createSelectStyles<Option extends SelectOption>(): StylesConfig<
       ...base,
       minHeight: 46,
       backgroundColor: "#1b1c1d",
-      borderColor: state.isFocused
-        ? "#c8ff76"
-        : "rgba(255, 255, 255, 0.2)",
+      borderColor: state.isFocused ? "#c8ff76" : "rgba(255, 255, 255, 0.2)",
       boxShadow: state.isFocused
         ? "0 0 0 2px rgba(200, 255, 118, 0.3)"
         : "none",
@@ -96,18 +95,16 @@ export function MoviesPage(): JSX.Element {
   const [query, setQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("rating");
+  const [sortBy, setSortBy] = useState<SortOption>("popular");
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const [draftGenre, setDraftGenre] = useState("");
+  const [draftYear, setDraftYear] = useState("");
+  const [draftSortBy, setDraftSortBy] = useState<SortOption>("popular");
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     loadMovies();
   }, []);
-
-  useEffect(() => {
-    if (!isLoading && !errorMessage) {
-      searchInputRef.current?.focus();
-    }
-  }, [isLoading, errorMessage]);
 
   async function loadMovies(): Promise<void> {
     try {
@@ -146,6 +143,13 @@ export function MoviesPage(): JSX.Element {
       return matchesTitle && matchesGenre && matchesYear;
     })
     .sort((first, second) => {
+      if (sortBy === "popular") {
+        return (
+          second.quantityImdbRating - first.quantityImdbRating ||
+          second.imdbRating - first.imdbRating
+        );
+      }
+
       if (sortBy === "rating") {
         return second.imdbRating - first.imdbRating;
       }
@@ -156,6 +160,38 @@ export function MoviesPage(): JSX.Element {
 
       return first.releaseYear - second.releaseYear;
     });
+
+  const appliedFilters = [
+    ...(selectedGenre
+      ? [
+          {
+            id: "genre",
+            label: selectedGenre,
+            clear: () => setSelectedGenre(""),
+          },
+        ]
+      : []),
+    ...(selectedYear
+      ? [
+          {
+            id: "year",
+            label: selectedYear,
+            clear: () => setSelectedYear(""),
+          },
+        ]
+      : []),
+    ...(sortBy !== "popular"
+      ? [
+          {
+            id: "sort",
+            label:
+              sortOptions.find((option) => option.value === sortBy)?.label ??
+              "",
+            clear: () => setSortBy("popular"),
+          },
+        ]
+      : []),
+  ];
 
   if (isLoading) {
     return (
@@ -205,90 +241,219 @@ export function MoviesPage(): JSX.Element {
               >
                 <X size={18} aria-hidden="true" />
               </button>
-            ) : (
-              <Search
-                className="movies__search-icon"
-                size={18}
-                aria-hidden="true"
-              />
-            )}
+            ) : null}
+            <button
+              type="button"
+              className="movies__mobile-filter-toggle"
+              aria-label={isMobileFiltersOpen ? "Hide filters" : "Show filters"}
+              aria-expanded={isMobileFiltersOpen}
+              aria-controls="movies-mobile-filters"
+              onClick={() => {
+                if (!isMobileFiltersOpen) {
+                  setDraftGenre(selectedGenre);
+                  setDraftYear(selectedYear);
+                  setDraftSortBy(sortBy);
+                }
+                setIsMobileFiltersOpen((isOpen) => !isOpen);
+              }}
+            >
+              <ListFilter size={18} aria-hidden="true" />
+            </button>
           </div>
 
-          <Select<SelectOption>
-            className="movies__filter-select"
-            classNamePrefix="movies-select"
-            styles={createSelectStyles<SelectOption>()}
-            aria-label="Filter by genre"
-            isClearable
-            isSearchable
-            placeholder="All genres"
-            options={genreOptions}
-            value={
-              genreOptions.find((option) => option.value === selectedGenre) ??
-              null
-            }
-            onChange={(option) => setSelectedGenre(option?.value ?? "")}
-          />
-
-          <Select<SelectOption>
-            className="movies__filter-select"
-            classNamePrefix="movies-select"
-            styles={createSelectStyles<SelectOption>()}
-            aria-label="Filter by release year"
-            isClearable
-            isSearchable
-            placeholder="All years"
-            options={yearOptions}
-            value={
-              yearOptions.find((option) => option.value === selectedYear) ??
-              null
-            }
-            onChange={(option) => setSelectedYear(option?.value ?? "")}
-          />
-
-          <Select<SelectOption<SortOption>>
-            className="movies__filter-select"
-            classNamePrefix="movies-select"
-            styles={createSelectStyles<SelectOption<SortOption>>()}
-            aria-label="Sort movies"
-            isSearchable={false}
-            options={sortOptions}
-            value={sortOptions.find((option) => option.value === sortBy) ?? null}
-            onChange={(option) => {
-              if (option) {
-                setSortBy(option.value);
+          <div className="movies__desktop-filter-selects">
+            <Select<SelectOption>
+              className="movies__filter-select"
+              classNamePrefix="movies-select"
+              styles={createSelectStyles<SelectOption>()}
+              aria-label="Filter by genre"
+              isClearable
+              isSearchable
+              placeholder="All genres"
+              options={genreOptions}
+              value={
+                genreOptions.find((option) => option.value === selectedGenre) ??
+                null
               }
-            }}
-          />
+              onChange={(option) => setSelectedGenre(option?.value ?? "")}
+            />
+
+            <Select<SelectOption>
+              className="movies__filter-select"
+              classNamePrefix="movies-select"
+              styles={createSelectStyles<SelectOption>()}
+              aria-label="Filter by release year"
+              isClearable
+              isSearchable
+              placeholder="All years"
+              options={yearOptions}
+              value={
+                yearOptions.find((option) => option.value === selectedYear) ??
+                null
+              }
+              onChange={(option) => setSelectedYear(option?.value ?? "")}
+            />
+
+            <Select<SelectOption<SortOption>>
+              className="movies__filter-select"
+              classNamePrefix="movies-select"
+              styles={createSelectStyles<SelectOption<SortOption>>()}
+              aria-label="Sort movies"
+              isSearchable={false}
+              options={sortOptions}
+              value={
+                sortOptions.find((option) => option.value === sortBy) ?? null
+              }
+              onChange={(option) => {
+                if (option) {
+                  setSortBy(option.value);
+                }
+              }}
+            />
+          </div>
+
+          {isMobileFiltersOpen && (
+            <div
+              className="movies__mobile-filter-panel"
+              id="movies-mobile-filters"
+            >
+              <Select<SelectOption>
+                className="movies__filter-select"
+                classNamePrefix="movies-select"
+                styles={createSelectStyles<SelectOption>()}
+                aria-label="Filter by genre"
+                isClearable
+                isSearchable
+                placeholder="All genres"
+                options={genreOptions}
+                value={
+                  genreOptions.find((option) => option.value === draftGenre) ??
+                  null
+                }
+                onChange={(option) => setDraftGenre(option?.value ?? "")}
+              />
+
+              <Select<SelectOption>
+                className="movies__filter-select"
+                classNamePrefix="movies-select"
+                styles={createSelectStyles<SelectOption>()}
+                aria-label="Filter by release year"
+                isClearable
+                isSearchable
+                placeholder="All years"
+                options={yearOptions}
+                value={
+                  yearOptions.find((option) => option.value === draftYear) ??
+                  null
+                }
+                onChange={(option) => setDraftYear(option?.value ?? "")}
+              />
+
+              <Select<SelectOption<SortOption>>
+                className="movies__filter-select"
+                classNamePrefix="movies-select"
+                styles={createSelectStyles<SelectOption<SortOption>>()}
+                aria-label="Sort movies"
+                isSearchable={false}
+                options={sortOptions}
+                value={
+                  sortOptions.find((option) => option.value === draftSortBy) ??
+                  null
+                }
+                onChange={(option) => {
+                  if (option) {
+                    setDraftSortBy(option.value);
+                  }
+                }}
+              />
+
+              <div className="movies__mobile-filter-actions">
+                <button
+                  type="button"
+                  className="movies__mobile-filter-reset"
+                  onClick={() => {
+                    setDraftGenre("");
+                    setDraftYear("");
+                    setDraftSortBy("popular");
+                    setSelectedGenre("");
+                    setSelectedYear("");
+                    setSortBy("popular");
+                  }}
+                >
+                  Reset
+                </button>
+                <button
+                  type="button"
+                  className="movies__mobile-filter-apply"
+                  onClick={() => {
+                    setSelectedGenre(draftGenre);
+                    setSelectedYear(draftYear);
+                    setSortBy(draftSortBy);
+                    setIsMobileFiltersOpen(false);
+                  }}
+                >
+                  Apply filters
+                </button>
+              </div>
+            </div>
+          )}
         </div>
+
+        {appliedFilters.length > 0 && (
+          <div className="movies__applied-filters" aria-live="polite">
+            <span className="movies__applied-filters-label">Applied:</span>
+            {appliedFilters.map((filter) => (
+              <button
+                key={filter.id}
+                type="button"
+                className="movies__applied-filter"
+                onClick={filter.clear}
+                aria-label={`Remove ${filter.label}`}
+              >
+                <span>{filter.label}</span>
+                <X size={14} aria-hidden="true" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {movies.length === 0 ? (
           <p>No movies available.</p>
         ) : filteredMovies.length === 0 ? (
           <p>No movies found.</p>
         ) : (
-          <div className="movies__grid">
-            {filteredMovies.map((movie) => (
-              <Link
-                key={movie.id}
-                to={`/movie/${movie.id}`}
-                className="movies__card"
-              >
-                <img
-                  src={movie.posterUrl}
-                  alt={movie.title}
-                  className="movies__poster"
-                  loading="lazy"
-                />
-                <div className="movies__content">
-                  <h3 className="movies__movie-title">{movie.title}</h3>
-                  <p className="movies__meta">
-                    {movie.releaseYear} · Rating {movie.imdbRating}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <>
+            {!normalizedQuery &&
+              !selectedGenre &&
+              !selectedYear &&
+              sortBy === "popular" && (
+                <h2 className="movies__results-title">Popular movies</h2>
+              )}
+            <div className="movies__grid">
+              {filteredMovies.map((movie) => (
+                <Link
+                  key={movie.id}
+                  to={`/movie/${movie.id}`}
+                  className="movies__card"
+                >
+                  <div className="movies__poster-wrap">
+                    <img
+                      src={movie.posterUrl}
+                      alt={movie.title}
+                      className="movies__poster"
+                      loading="lazy"
+                    />
+                    <span className="movies__rating-badge">
+                      IMDb <strong>{movie.imdbRating}</strong>
+                    </span>
+                  </div>
+                  <div className="movies__content">
+                    <h3 className="movies__movie-title">{movie.title}</h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </>
         )}
       </div>
     </section>

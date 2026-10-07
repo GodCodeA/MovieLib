@@ -105,7 +105,7 @@ export function GenreDetailsPage(): JSX.Element {
               <div className="genre-details__content">
                 <h2 className="genre-details__movie-title">{movie.title}</h2>
                 <p className="genre-details__rating">
-                  Rating: {movie.imdbRating}
+                  IMDb: {movie.imdbRating}
                 </p>
                 <p className="genre-details__year">{movie.releaseYear}</p>
               </div>
